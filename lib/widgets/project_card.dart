@@ -11,7 +11,8 @@ class ProjectCard extends StatefulWidget {
   _ProjectCardState createState() => _ProjectCardState();
 }
 
-class _ProjectCardState extends State<ProjectCard> with SingleTickerProviderStateMixin {
+class _ProjectCardState extends State<ProjectCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -37,26 +38,24 @@ class _ProjectCardState extends State<ProjectCard> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      
       onEnter: (_) => _controller.forward(),
       onExit: (_) => _controller.reverse(),
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: Card(
-              
           elevation: 3,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Column(
-           
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+              Container(
                 child: Image.asset(
                   widget.project.image,
                   height: 300,
                   width: double.infinity,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               Padding(
@@ -88,12 +87,20 @@ class _ProjectCardState extends State<ProjectCard> with SingleTickerProviderStat
                       alignment: Alignment.centerRight,
                       child: TextButton.icon(
                         onPressed: () async {
-                          final url = Uri.parse(widget.project.githubLink);
+                          final url = Uri.parse(
+                            widget.project.githubLink,
+                          );
                           if (await canLaunchUrl(url)) {
                             await launchUrl(url);
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Could not launch ${widget.project.githubLink}')),
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Could not launch ${widget.project.githubLink}',
+                                ),
+                              ),
                             );
                           }
                         },

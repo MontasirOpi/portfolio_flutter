@@ -27,22 +27,22 @@ class Project {
           githubLink: "https://github.com/MontasirOpi/grocery_app_using_bloc",
         ),
         Project(
-          title: "News Reader",
+          title: "Fast food app",
           description: "A Flutter app fetching news via NewsAPI.",
-          image: "assets/images/dummy_project.png",
-          githubLink: "https://github.com/username/news-reader",
+          image: "assets/images/fastfood.jpg",
+          githubLink: "https://github.com/MontasirOpi/FAST-FOOD-APP-FLUTTER?tab=readme-ov-file",
         ),
-        Project(
-          title: "Student Attendance",
-          description: "Role-based Flutter app to track student attendance.",
-          image: "assets/images/dummy_project.png",
-          githubLink: "https://github.com/username/student-attendance",
-        ),
-        Project(
-          title: "Skin Cancer Detector",
-          description: "Deep learning app to classify skin cancer types.",
-          image: "assets/images/dummy_project.png",
-          githubLink: "https://github.com/username/skin-cancer-detector",
-        ),
+        // Project(
+        //   title: "Student Attendance",
+        //   description: "Role-based Flutter app to track student attendance.",
+        //   image: "assets/images/dummy_project.png",
+        //   githubLink: "https://github.com/username/student-attendance",
+        // ),
+        // Project(
+        //   title: "Skin Cancer Detector",
+        //   description: "Deep learning app to classify skin cancer types.",
+        //   image: "assets/images/dummy_project.png",
+        //   githubLink: "https://github.com/username/skin-cancer-detector",
+        // ),
       ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio_flutter/pages/skill_page.dart';
 import '../widgets/nav_bar.dart';
 import 'about_page.dart';
 import 'projects_page.dart';
@@ -20,6 +21,7 @@ class HomePage extends StatelessWidget {
             NavBar(toggleTheme: toggleTheme, isDarkMode: isDarkMode),
             const AboutPage(),
             const ProjectsPage(),
+            const SkillsPage(),
             const ContactPage(),
             const Footer(),
           ],
