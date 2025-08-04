@@ -42,15 +42,24 @@ class _SkillsPageState extends State<SkillsPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    final leftSkills = [
-      {'name': 'Flutter', 'icon': Icons.developer_board},
+    final programmingLanguages = [
       {'name': 'Dart', 'icon': Icons.code},
-      {'name': 'Firebase', 'icon': Icons.cloud},
+      {'name': 'Python', 'icon': Icons.code},
+      {'name': 'JavaScript', 'icon': Icons.code},
+      {'name': 'C++', 'icon': Icons.code},
     ];
-    final rightSkills = [
-      {'name': 'REST APIs', 'icon': Icons.api},
+    final frameworks = [
+      {'name': 'Flutter', 'icon': Icons.developer_board},
+      {'name': 'React ', 'icon': Icons.web},
+    ];
+    final databases = [
+      {'name': 'Firebase', 'icon': Icons.cloud},
       {'name': 'Supabase', 'icon': Icons.storage},
-      {'name': 'Git', 'icon': Icons.commit},
+      {'name': 'MongoDB', 'icon': Icons.storage},
+    ];
+    final ides = [
+      {'name': 'VS Code', 'icon': Icons.edit},
+      {'name': 'Android Studio', 'icon': Icons.android},
     ];
 
     return Container(
@@ -78,103 +87,119 @@ class _SkillsPageState extends State<SkillsPage> with SingleTickerProviderStateM
             position: _slideAnimation,
             child: FadeTransition(
               opacity: _fadeAnimation,
-              child: Text(
-                "Skills",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue.shade900,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 3.0,
-                      color: Colors.black.withOpacity(0.2),
-                      offset: const Offset(1, 1),
-                    ),
-                  ],
+              child: Center(
+                child: Text(
+                  "Skills",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue.shade900,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 3.0,
+                        color: Colors.black.withOpacity(0.2),
+                        offset: const Offset(1, 1),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 16),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: leftSkills.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final skill = entry.value;
-                    return FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(
-                            children: [
-                              Icon(
-                                skill['icon'] as IconData,
-                                size: 24,
-                                color: Colors.blue.shade700,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                skill['name'] as String,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blue.shade900,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  children: [
+                    _buildSectionTitle("Programming Languages"),
+                    ...programmingLanguages.asMap().entries.map((entry) {
+                      final skill = entry.value;
+                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
+                    }).toList(),
+                    const SizedBox(height: 16),
+                    _buildSectionTitle("Frameworks"),
+                    ...frameworks.asMap().entries.map((entry) {
+                      final skill = entry.value;
+                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
+                    }).toList(),
+                  ],
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: rightSkills.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final skill = entry.value;
-                    return FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: SlideTransition(
-                        position: _slideAnimation,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Row(
-                            children: [
-                              Icon(
-                                skill['icon'] as IconData,
-                                size: 24,
-                                color: Colors.blue.shade700,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                                skill['name'] as String,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.blue.shade900,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  children: [
+                    _buildSectionTitle("Databases"),
+                    ...databases.asMap().entries.map((entry) {
+                      final skill = entry.value;
+                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
+                    }).toList(),
+                    const SizedBox(height: 16),
+                    _buildSectionTitle("IDEs"),
+                    ...ides.asMap().entries.map((entry) {
+                      final skill = entry.value;
+                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
+                    }).toList(),
+                  ],
                 ),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.blue.shade900,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSkillItem(String name, IconData icon) {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            children: [
+              Icon(
+                icon,
+                size: 24,
+                color: Colors.blue.shade700,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                name,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue.shade900,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
