@@ -16,19 +16,19 @@ class Project {
   static List<Project> get sampleProjects => [
         Project(
           title: "Library management system",
-          description: "An IoT-based app to control temperature and humidity.",
-          image: "assets/images/lms.jpg",
+          description: "The Library Management System is a full-featured Flutter application designed to streamline and digitize the process of managing books, users, and transactions in a library environment. Flutter (Front-end),Supabase(Authentication + Database)",
+          image: "assets/images/lms.jpg",  
           githubLink: "https://github.com/MontasirOpi/library_management_system",
         ),
         Project(
           title: "Grocery app using bloc",
-          description: "A real-time parking slot manager using Flutter & Firebase.",
+          description: "This Grocery App is a simple Flutter application using the BLoC pattern for state management. It lets users browse grocery items, add them to a cart, and manage selections efficiently. The app is designed with clean architecture, separating UI from business logic. It’s perfect for beginners to learn BLoC in a real-world scenario and serves as a foundation for building scalable e-commerce apps with Flutter.",
           image: "assets/images/grocery.png",
           githubLink: "https://github.com/MontasirOpi/grocery_app_using_bloc",
         ),
         Project(
           title: "Fast food app",
-          description: "A Flutter app fetching news via NewsAPI.",
+          description: "This Fast Food App allows users to browse food items, view details, and add them to the cart. It features a clean UI, category-based filtering, real-time cart updates, and smooth navigation. Built with Flutter, it offers responsive design and modular code, making it ideal for learning food ordering app basics and enhancing with more advanced features.",
           image: "assets/images/fastfood.jpg",
           githubLink: "https://github.com/MontasirOpi/FAST-FOOD-APP-FLUTTER?tab=readme-ov-file",
         ),

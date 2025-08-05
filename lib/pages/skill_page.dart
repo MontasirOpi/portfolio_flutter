@@ -1,206 +1,126 @@
 import 'package:flutter/material.dart';
 
-class SkillsPage extends StatefulWidget {
+class SkillsPage extends StatelessWidget {
   const SkillsPage({super.key});
 
   @override
-  _SkillsPageState createState() => _SkillsPageState();
-}
-
-class _SkillsPageState extends State<SkillsPage> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
-
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.05),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     final programmingLanguages = [
       {'name': 'Dart', 'icon': Icons.code},
-      {'name': 'Python', 'icon': Icons.code},
-      {'name': 'JavaScript', 'icon': Icons.code},
-      {'name': 'C++', 'icon': Icons.code},
+      {'name': 'Python', 'icon': Icons.terminal},
+      {'name': 'JavaScript', 'icon': Icons.javascript},
+      {'name': 'C++', 'icon': Icons.memory},
     ];
+
     final frameworks = [
-      {'name': 'Flutter', 'icon': Icons.developer_board},
-      {'name': 'React ', 'icon': Icons.web},
+      {'name': 'Flutter', 'icon': Icons.flutter_dash},
+      {'name': 'React', 'icon': Icons.web},
     ];
+
     final databases = [
       {'name': 'Firebase', 'icon': Icons.cloud},
       {'name': 'Supabase', 'icon': Icons.storage},
-      {'name': 'MongoDB', 'icon': Icons.storage},
+      {'name': 'MongoDB', 'icon': Icons.dns},
     ];
+
     final ides = [
-      {'name': 'VS Code', 'icon': Icons.edit},
+      {'name': 'VS Code', 'icon': Icons.code_off},
       {'name': 'Android Studio', 'icon': Icons.android},
+      {'name': 'Cursor', 'icon': Icons.edit},
     ];
 
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.blue.shade100, Colors.purple.shade100],
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isDark ? Colors.grey[900] : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            if (!isDark)
+              BoxShadow(
+                color: Colors.grey.shade300,
+                blurRadius: 12,
+                offset: const Offset(0, 6),
+              ),
+          ],
         ),
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SlideTransition(
-            position: _slideAnimation,
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: Center(
-                child: Text(
-                  "Skills",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue.shade900,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 3.0,
-                        color: Colors.black.withOpacity(0.2),
-                        offset: const Offset(1, 1),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSectionTitle("Programming Languages"),
-                    ...programmingLanguages.asMap().entries.map((entry) {
-                      final skill = entry.value;
-                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
-                    }).toList(),
-                    const SizedBox(height: 16),
-                    _buildSectionTitle("Frameworks"),
-                    ...frameworks.asMap().entries.map((entry) {
-                      final skill = entry.value;
-                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
-                    }).toList(),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildSectionTitle("Databases"),
-                    ...databases.asMap().entries.map((entry) {
-                      final skill = entry.value;
-                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
-                    }).toList(),
-                    const SizedBox(height: 16),
-                    _buildSectionTitle("IDEs"),
-                    ...ides.asMap().entries.map((entry) {
-                      final skill = entry.value;
-                      return _buildSkillItem(skill['name'] as String, skill['icon'] as IconData);
-                    }).toList(),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: SlideTransition(
-        position: _slideAnimation,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.blue.shade900,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSkillItem(String name, IconData icon) {
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: SlideTransition(
-        position: _slideAnimation,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            children: [
-              Icon(
-                icon,
-                size: 24,
-                color: Colors.blue.shade700,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                name,
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                '💻 My Developer Skills',
                 style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.blue.shade900,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: isDark ? Colors.indigo[100] : Colors.indigo.shade800,
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 24),
+            _buildSkillSection('Programming Languages', programmingLanguages, isDark),
+            const Divider(height: 32),
+            _buildSkillSection('Frameworks', frameworks, isDark),
+            const Divider(height: 32),
+            _buildSkillSection('Databases', databases, isDark),
+            const Divider(height: 32),
+            _buildSkillSection('IDEs & Tools', ides, isDark),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSkillSection(String title, List<Map<String, dynamic>> skills, bool isDark) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: isDark ? Colors.white : Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: skills.map((skill) {
+            return _buildSkillChip(skill['name'], skill['icon'], isDark);
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSkillChip(String name, IconData icon, bool isDark) {
+    return Chip(
+      label: Text(
+        name,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: isDark ? Colors.white : Colors.black,
+        ),
+      ),
+      avatar: Icon(
+        icon,
+        size: 20,
+        color: isDark ? Colors.indigo[200] : Colors.indigo,
+      ),
+      backgroundColor: isDark ? Colors.indigo.shade900.withOpacity(0.2) : Colors.indigo.shade50,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(
+          color: isDark ? Colors.indigo.shade300 : Colors.indigo.shade100,
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
     );
   }
 }

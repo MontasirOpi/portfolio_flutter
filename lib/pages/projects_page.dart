@@ -45,14 +45,19 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final projects = Project.sampleProjects;
+        final theme = Theme.of(context);
+        final isDark = theme.brightness == Brightness.dark;
 
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.blue.shade100, Colors.purple.shade100],
+          colors: isDark
+              ? [Colors.grey.shade900, Colors.black87]
+              : [Colors.blue.shade100, Colors.purple.shade100],
         ),
+       
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -62,7 +67,7 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
           ),
         ],
       ),
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,9 +79,9 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
               child: Text(
                 "Projects",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue.shade900,
+                  color: isDark ? Colors.white :Colors.blue.shade900,
                   shadows: [
                     Shadow(
                       blurRadius: 3.0,
@@ -88,24 +93,32 @@ class _ProjectsPageState extends State<ProjectsPage> with SingleTickerProviderSt
               ),
             ),
           ),
-          const SizedBox(height: 8),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 8,
-              childAspectRatio: 0.95,
-            ),
-            itemCount: projects.length,
-            itemBuilder: (context, index) {
-              return FadeTransition(
-                opacity: _fadeAnimation,
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: ProjectCard(project: projects[index]),
+          const SizedBox(height: 16),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // Adjust crossAxisCount depending on screen width
+              int crossAxisCount = 1;
+              if (constraints.maxWidth >= 1200) {
+                crossAxisCount = 4;
+              } else if (constraints.maxWidth >= 900) {
+                crossAxisCount = 3;
+              } else if (constraints.maxWidth >= 600) {
+                crossAxisCount = 2;
+              }
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.75,
                 ),
+                itemCount: projects.length,
+                itemBuilder: (context, index) {
+                  return ProjectCard(project: projects[index]);
+                },
               );
             },
           ),

@@ -47,17 +47,22 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.blue.shade100, Colors.purple.shade100],
+          colors: isDark
+              ? [Colors.grey.shade900, Colors.black87]
+              : [Colors.blue.shade100, Colors.purple.shade100],
         ),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: isDark ? Colors.black.withOpacity(0.7) : Colors.black.withOpacity(0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -84,6 +89,8 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                       'assets/images/opi1.jpg',
                       height: 400,
                       fit: BoxFit.cover,
+                      color: isDark ? Colors.black.withOpacity(0.4) : null,
+                      colorBlendMode: isDark ? BlendMode.darken : null,
                     ),
                   ),
                 ),
@@ -107,11 +114,11 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue.shade900,
+                          color: isDark ? Colors.indigo.shade100 : Colors.blue.shade900,
                           shadows: [
                             Shadow(
                               blurRadius: 5.0,
-                              color: Colors.black.withOpacity(0.2),
+                              color: isDark ? Colors.black87 : Colors.black.withOpacity(0.2),
                               offset: const Offset(2, 2),
                             ),
                           ],
@@ -128,7 +135,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                         "I'm a passionate Flutter Developer focused on building smooth, responsive mobile and web apps. I enjoy solving real-world problems with beautiful and performant UIs using Flutter, Firebase, REST APIs, and modern tools like Supabase and Git.",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.grey.shade800,
+                          color: isDark ? Colors.grey.shade300 : Colors.grey.shade800,
                           height: 1.5,
                         ),
                       ),
