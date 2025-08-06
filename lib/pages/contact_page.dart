@@ -26,7 +26,7 @@ class ContactPage extends StatelessWidget {
               onTap: () => launchUrl(Uri.parse("https://www.linkedin.com/in/fahim-montasir-opi-161b65256/"))),
           const SizedBox(height: 20),
           ElevatedButton.icon(
-              onPressed: _downloadCV,
+              onPressed:()=>launchUrl(Uri.parse("https://drive.google.com/file/d/1JHU78JyZ6uvTgvS6A9QLpBDVaBHc2hON/view?usp=sharing")),
               icon: const Icon(Icons.download),
               label: const Text("Download CV")),
         ],
