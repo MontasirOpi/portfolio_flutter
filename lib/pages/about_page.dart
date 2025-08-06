@@ -73,7 +73,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Hero(
               tag: 'profile-image',
               child: FadeTransition(
@@ -84,10 +84,12 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(12),
                       bottomLeft: Radius.circular(12),
+                      
                     ),
                     child: Image.asset(
                       'assets/images/opi1.jpg',
                       height: 400,
+                      
                       fit: BoxFit.cover,
                       color: isDark ? Colors.black.withOpacity(0.4) : null,
                       colorBlendMode: isDark ? BlendMode.darken : null,
@@ -98,7 +100,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 3,
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
@@ -132,7 +134,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                     child: FadeTransition(
                       opacity: _fadeAnimation,
                       child: Text(
-                        "I'm a passionate Flutter Developer focused on building smooth, responsive mobile and web apps. I enjoy solving real-world problems with beautiful and performant UIs using Flutter, Firebase, REST APIs, and modern tools like Supabase and Git.",
+                        "I’m a passionate Flutter Developer with expertise in building beautiful, responsive, and high-performance cross-platform applications for Android, iOS, and Web. I specialize in crafting user-friendly interfaces, integrating RESTful APIs, Firebase, and ensuring smooth state management using tools like GetX and BLoC. I enjoy transforming ideas into functional, scalable apps with clean code and creative UI/UX design.",
                         style: TextStyle(
                           fontSize: 18,
                           color: isDark ? Colors.grey.shade300 : Colors.grey.shade800,

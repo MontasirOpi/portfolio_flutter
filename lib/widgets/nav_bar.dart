@@ -11,6 +11,7 @@ class NavBar extends StatelessWidget {
     required this.toggleTheme,
     required this.isDarkMode,
   });
+
   // Generic URL launcher
   void _launchURL(String url) async {
     final Uri uri = Uri.parse(url);
@@ -23,132 +24,104 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 32,
-        vertical: 16,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              const Text(
-                "Fahim Montasir Opi",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isMobile = constraints.maxWidth < 600;
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: isMobile
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Top Row: Name + Theme toggle
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "Fahim Montasir Opi",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                          ),
+                          onPressed: toggleTheme,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    // Icons Row
+                    Wrap(
+                      spacing: 20,
+                      runSpacing: 10,
+                      children: [
+                        _buildIcon('assets/icons/dart.svg', 'https://dart.dev/'),
+                        _buildIcon('assets/icons/flutter-logo.svg', 'https://flutter.dev/'),
+                        _buildIcon('assets/icons/github.svg', 'https://github.com/MontasirOpi', size: 40),
+                        _buildIcon('assets/icons/linkedin.svg', 'https://www.linkedin.com/in/fahim-montasir-opi-161b65256/'),
+                      ],
+                    )
+                  ],
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Left: Name + tech icons
+                    Row(
+                      children: [
+                        const Text(
+                          "Fahim Montasir Opi",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 30),
+                        _buildIcon('assets/icons/dart.svg', 'https://dart.dev/'),
+                        const SizedBox(width: 20),
+                        _buildIcon('assets/icons/flutter-logo.svg', 'https://flutter.dev/'),
+                      ],
+                    ),
+                    // Right: Social + theme toggle
+                    Row(
+                      children: [
+                        _buildIcon('assets/icons/github.svg', 'https://github.com/MontasirOpi', size: 40),
+                        const SizedBox(width: 20),
+                        _buildIcon('assets/icons/linkedin.svg', 'https://www.linkedin.com/in/fahim-montasir-opi-161b65256/'),
+                        const SizedBox(width: 40),
+                        IconButton(
+                          icon: Icon(
+                            isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                          ),
+                          onPressed: toggleTheme,
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-              ),
-              const SizedBox(width: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(width: 30),
-                  Material(
-                    color: Colors
-                        .transparent, // keep background transparent
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(
-                        4,
-                      ), // optional for ripple shape
-                      onTap: () => _launchURL('https://dart.dev/'),
+        );
+      },
+    );
+  }
 
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          4.0,
-                        ), // optional padding
-                        child: SvgPicture.asset(
-                          'assets/icons/dart.svg',
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(width: 30),
-                  Material(
-                    color: Colors
-                        .transparent, // keep background transparent
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(
-                        4,
-                      ), // optional for ripple shape
-                      onTap: () => _launchURL('https://flutter.dev/'),
-
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          4.0,
-                        ), // optional padding
-                        child: SvgPicture.asset(
-                          'assets/icons/flutter-logo.svg',
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+  Widget _buildIcon(String assetPath, String url, {double size = 30}) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(4),
+        onTap: () => _launchURL(url),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: SvgPicture.asset(
+            assetPath,
+            height: size,
+            width: size,
           ),
-          
-          Row(
-            children: [
-               Material(
-                    color: Colors
-                        .transparent, // keep background transparent
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(
-                        4,
-                      ), // optional for ripple shape
-                      onTap: () => _launchURL('https://github.com/MontasirOpi'),
-                        
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          4.0,
-                        ), // optional padding
-                        child: SvgPicture.asset(
-                          'assets/icons/github.svg',
-                          height: 40,
-                          width: 40,
-                        ),
-                      ),
-                    ),
-                  ),
-                   Material(
-                    color: Colors
-                        .transparent, // keep background transparent
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(
-                        4,
-                      ), // optional for ripple shape
-                      onTap: () => _launchURL('https://www.linkedin.com/in/fahim-montasir-opi-161b65256/'),
-                        
-                      child: Padding(
-                        padding: const EdgeInsets.all(
-                          4.0,
-                        ), // optional padding
-                        child: SvgPicture.asset(
-                          'assets/icons/linkedin.svg',
-                          height: 30,
-                          width: 30,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 100,),
-                  IconButton(
-            icon: Icon(
-              isDarkMode ? Icons.light_mode : Icons.dark_mode,
-            ),
-            onPressed: toggleTheme,
-          ),
-            ],
-          ),
-          
-        ],
+        ),
       ),
     );
   }

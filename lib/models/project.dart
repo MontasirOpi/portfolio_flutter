@@ -32,12 +32,12 @@ class Project {
           image: "assets/images/fastfood.jpg",
           githubLink: "https://github.com/MontasirOpi/FAST-FOOD-APP-FLUTTER?tab=readme-ov-file",
         ),
-        // Project(
-        //   title: "Student Attendance",
-        //   description: "Role-based Flutter app to track student attendance.",
-        //   image: "assets/images/dummy_project.png",
-        //   githubLink: "https://github.com/username/student-attendance",
-        // ),
+        Project(
+          title: "Weather app",
+          description: "This Flutter Weather App fetches real-time weather data via OpenWeatherMap (or similar API), allowing users to search cities or use current location. It shows temperature, conditions, humidity, wind, and sunrise/sunset times. The UI supports light and dark modes, clean transitions, and responsive design, making it a polished, modern weather experience for mobile or web.",
+          image: "assets/images/weather.png",
+          githubLink: "https://github.com/MontasirOpi/weather-app-using-flutter?tab=readme-ov-file",
+        ),
         // Project(
         //   title: "Skin Cancer Detector",
         //   description: "Deep learning app to classify skin cancer types.",
