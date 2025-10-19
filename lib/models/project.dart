@@ -1,48 +1,53 @@
-
-
 class Project {
   final String title;
   final String description;
   final String image;
   final String githubLink;
+  final String? networkImage; // ✅ Nullable (optional)
 
   Project({
     required this.title,
     required this.description,
     required this.image,
     required this.githubLink,
+    this.networkImage,
   });
 
   static List<Project> get sampleProjects => [
-        Project(
-          title: "Library management system",
-          description: "The Library Management System is a full-featured Flutter application designed to streamline and digitize the process of managing books, users, and transactions in a library environment. Flutter (Front-end),Supabase(Authentication + Database)",
-          image: "assets/images/lms.jpg",  
-          githubLink: "https://github.com/MontasirOpi/library_management_system",
-        ),
-        Project(
-          title: "Grocery app using bloc",
-          description: "This Grocery App is a simple Flutter application using the BLoC pattern for state management. It lets users browse grocery items, add them to a cart, and manage selections efficiently. The app is designed with clean architecture, separating UI from business logic. It’s perfect for beginners to learn BLoC in a real-world scenario and serves as a foundation for building scalable e-commerce apps with Flutter.",
-          image: "assets/images/grocery.png",
-          githubLink: "https://github.com/MontasirOpi/grocery_app_using_bloc",
-        ),
-        Project(
-          title: "Fast food app",
-          description: "This Fast Food App allows users to browse food items, view details, and add them to the cart. It features a clean UI, category-based filtering, real-time cart updates, and smooth navigation. Built with Flutter, it offers responsive design and modular code, making it ideal for learning food ordering app basics and enhancing with more advanced features.",
-          image: "assets/images/fastfood.jpg",
-          githubLink: "https://github.com/MontasirOpi/FAST-FOOD-APP-FLUTTER?tab=readme-ov-file",
-        ),
-        Project(
-          title: "Weather app",
-          description: "This Flutter Weather App fetches real-time weather data via OpenWeatherMap (or similar API), allowing users to search cities or use current location. It shows temperature, conditions, humidity, wind, and sunrise/sunset times. The UI supports light and dark modes, clean transitions, and responsive design, making it a polished, modern weather experience for mobile or web.",
-          image: "assets/images/weather.png",
-          githubLink: "https://github.com/MontasirOpi/weather-app-using-flutter?tab=readme-ov-file",
-        ),
-        // Project(
-        //   title: "Skin Cancer Detector",
-        //   description: "Deep learning app to classify skin cancer types.",
-        //   image: "assets/images/dummy_project.png",
-        //   githubLink: "https://github.com/username/skin-cancer-detector",
-        // ),
-      ];
+    Project(
+      title: "Library Management System",
+      description:
+          "A full-featured Flutter application designed to streamline and digitize the process of managing books, users, and transactions in a library environment. Flutter (Front-end), Supabase (Authentication + Database).",
+      image: "assets/images/lms.jpg",
+      githubLink: "https://github.com/MontasirOpi/library_management_system",
+    ),
+    Project(
+      title: "Grocery App Using BLoC",
+      description:
+          "A simple Flutter grocery app using the BLoC pattern for clean state management. Users can browse grocery items, add to cart, and manage selections efficiently — ideal for beginners learning scalable app architecture.",
+      image: "assets/images/grocery.png",
+      githubLink: "https://github.com/MontasirOpi/grocery_app_using_bloc",
+    ),
+    Project(
+      title: "Fast Food App",
+      description:
+          "Browse food items, view details, and manage your cart. Built with Flutter and featuring category-based filtering, real-time cart updates, and smooth navigation with responsive UI design.",
+      image: "assets/images/fastfood.jpg",
+      githubLink: "https://github.com/MontasirOpi/FAST-FOOD-APP-FLUTTER",
+    ),
+    Project(
+      title: "Weather App",
+      description:
+          "A Flutter weather app that fetches real-time data from OpenWeatherMap API, supports light/dark modes, and provides temperature, humidity, and wind details with clean, responsive design.",
+      image: "assets/images/weather.png",
+      githubLink: "https://github.com/MontasirOpi/weather-app-using-flutter",
+    ),
+    Project(
+      title: "আবহাওয়া Pal (Weather Pal)",
+      description:
+          "A bilingual weather app (Bangla & English) designed for Bangla-speaking users in Bangladesh and West Bengal. Provides real-time weather updates, forecasts, and local tips.",
+      image: "assets/images/abohawa_pal.jpg",
+      githubLink: "https://github.com/MontasirOpi/weather_pal",
+    ),
+  ];
 }

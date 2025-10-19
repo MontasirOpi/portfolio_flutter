@@ -16,19 +16,36 @@ class ContactPage extends StatelessWidget {
         children: [
           const Text("Get in Touch", style: TextStyle(fontSize: 24)),
           const SizedBox(height: 16),
-          const Text("📧 montasiropi@gmail.com"),
+          const Text("📧 devmontasir@gmail.com"),
           const SizedBox(height: 8),
           InkWell(
-              child: const Text("🔗 GitHub", style: TextStyle(color: Colors.blue)),
-              onTap: () => launchUrl(Uri.parse("https://github.com/MontasirOpi"))),
+            child: const Text(
+              "🔗 GitHub",
+              style: TextStyle(color: Colors.blue),
+            ),
+            onTap: () => launchUrl(Uri.parse("https://github.com/MontasirOpi")),
+          ),
           InkWell(
-              child: const Text("🔗 LinkedIn", style: TextStyle(color: Colors.blue)),
-              onTap: () => launchUrl(Uri.parse("https://www.linkedin.com/in/fahim-montasir-opi-161b65256/"))),
+            child: const Text(
+              "🔗 LinkedIn",
+              style: TextStyle(color: Colors.blue),
+            ),
+            onTap: () => launchUrl(
+              Uri.parse(
+                "https://www.linkedin.com/in/fahim-montasir-opi-161b65256/",
+              ),
+            ),
+          ),
           const SizedBox(height: 20),
           ElevatedButton.icon(
-              onPressed:()=>launchUrl(Uri.parse("https://drive.google.com/file/d/1JHU78JyZ6uvTgvS6A9QLpBDVaBHc2hON/view?usp=sharing")),
-              icon: const Icon(Icons.download),
-              label: const Text("Download CV")),
+            onPressed: () => launchUrl(
+              Uri.parse(
+                "https://drive.google.com/file/d/1JHU78JyZ6uvTgvS6A9QLpBDVaBHc2hON/view?usp=sharing",
+              ),
+            ),
+            icon: const Icon(Icons.download),
+            label: const Text("Download CV"),
+          ),
         ],
       ),
     );

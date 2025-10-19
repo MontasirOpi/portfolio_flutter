@@ -28,9 +28,12 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: HomePage(toggleTheme: toggleTheme, isDarkMode: isDarkMode),
+      home: SelectableRegion(
+        focusNode: FocusNode(),
+        selectionControls: MaterialTextSelectionControls(),
+        child: HomePage(toggleTheme: toggleTheme, isDarkMode: isDarkMode),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-  
