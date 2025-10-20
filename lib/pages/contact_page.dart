@@ -412,7 +412,7 @@ class _ContactPageState extends State<ContactPage>
           const SizedBox(height: 20),
           ElevatedButton.icon(
             onPressed: () => _launchURL(
-              'https://drive.google.com/file/d/1JHU78JyZ6uvTgvS6A9QLpBDVaBHc2hON/view?usp=sharing',
+              'https://drive.google.com/file/d/19RfC_zxo38aq2a3ZstuaWDM79mXsj_sx/view?usp=sharing',
               'Could not open CV',
             ),
             icon: const Icon(Icons.download_rounded, size: 20),

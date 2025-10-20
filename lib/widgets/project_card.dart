@@ -129,6 +129,24 @@ class _ProjectCardState extends State<ProjectCard>
     );
   }
 
+  Future<void> _launchUrl(BuildContext context, String urlString) async {
+    final url = Uri.parse(urlString);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Could not open link'),
+          backgroundColor: Colors.red.shade700,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -172,59 +190,42 @@ class _ProjectCardState extends State<ProjectCard>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image Section with Overlay
+              // Image Section
               Expanded(
                 flex: 5,
                 child: Stack(
                   children: [
                     GestureDetector(
                       onTap: () => _showFullImage(context),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(18),
-                            topRight: Radius.circular(18),
-                          ),
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: isDark
-                                ? [Colors.grey.shade800, Colors.grey.shade900]
-                                : [Colors.grey.shade100, Colors.grey.shade200],
-                          ),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(18),
+                          topRight: Radius.circular(18),
                         ),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(18),
-                            topRight: Radius.circular(18),
-                          ),
-                          child: widget.project.networkImage != null
-                              ? Image.network(
-                                  widget.project.networkImage!,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stack) =>
-                                      Center(
-                                        child: Icon(
-                                          Icons.image_not_supported_rounded,
-                                          color: isDark
-                                              ? Colors.grey.shade700
-                                              : Colors.grey.shade400,
-                                          size: 60,
-                                        ),
-                                      ),
-                                )
-                              : Image.asset(
-                                  widget.project.image,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
+                        child: widget.project.networkImage != null
+                            ? Image.network(
+                                widget.project.networkImage!,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stack) => Center(
+                                  child: Icon(
+                                    Icons.image_not_supported_rounded,
+                                    color: isDark
+                                        ? Colors.grey.shade700
+                                        : Colors.grey.shade400,
+                                    size: 60,
+                                  ),
                                 ),
-                        ),
+                              )
+                            : Image.asset(
+                                widget.project.image,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
-                    // Hover Overlay
                     if (_isHovered)
                       Positioned.fill(
                         child: Container(
@@ -251,56 +252,6 @@ class _ProjectCardState extends State<ProjectCard>
                           ),
                         ),
                       ),
-                    // Featured Badge
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: isDark
-                                ? [
-                                    Colors.indigo.shade700,
-                                    Colors.purple.shade700,
-                                  ]
-                                : [
-                                    Colors.indigo.shade400,
-                                    Colors.purple.shade400,
-                                  ],
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.star_rounded,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              'Featured',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -313,7 +264,6 @@ class _ProjectCardState extends State<ProjectCard>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title
                       Text(
                         widget.project.title,
                         style: TextStyle(
@@ -327,7 +277,6 @@ class _ProjectCardState extends State<ProjectCard>
                       ),
                       const SizedBox(height: 8),
 
-                      // Description
                       Expanded(
                         child: Text(
                           widget.project.description,
@@ -344,76 +293,89 @@ class _ProjectCardState extends State<ProjectCard>
                       ),
                       const SizedBox(height: 12),
 
-                      // Action Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () async {
-                            final url = Uri.parse(widget.project.githubLink);
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(
-                                url,
-                                mode: LaunchMode.externalApplication,
-                              );
-                            } else {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.error_outline,
-                                          color: Colors.white,
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: Text(
-                                            'Could not open GitHub link',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    backgroundColor: Colors.red.shade700,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                      // Action Buttons Row
+                      Row(
+                        children: [
+                          // GitHub Button
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              onPressed: () => _launchUrl(
+                                context,
+                                widget.project.githubLink,
+                              ),
+                              icon: SvgPicture.asset(
+                                'assets/icons/github.svg',
+                                height: 20,
+                                width: 20,
+                                colorFilter: const ColorFilter.mode(
+                                  Colors.white,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              label: const Text(
+                                'GitHub',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isDark
+                                    ? Colors.indigo.shade700
+                                    : Colors.indigo.shade600,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 14,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                elevation: 0,
+                              ),
+                            ),
+                          ),
+
+                          // Optional Live Demo Button
+                          if (widget.project.liveDemoLink != null) ...[
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: () => _launchUrl(
+                                  context,
+                                  widget.project.liveDemoLink!,
+                                ),
+                                icon: const Icon(
+                                  Icons.open_in_new_rounded,
+                                  size: 20,
+                                ),
+                                label: const Text(
+                                  'Live Demo',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
                                   ),
-                                );
-                              }
-                            }
-                          },
-                          icon: SvgPicture.asset(
-                            'assets/icons/github.svg',
-                            height: 20,
-                            width: 20,
-                            colorFilter: const ColorFilter.mode(
-                              Colors.white,
-                              BlendMode.srcIn,
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(
+                                    color: isDark
+                                        ? Colors.indigo.shade400
+                                        : Colors.indigo.shade600,
+                                    width: 1.8,
+                                  ),
+                                  foregroundColor: isDark
+                                      ? Colors.indigo.shade300
+                                      : Colors.indigo.shade700,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          label: const Text(
-                            'View on GitHub',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isDark
-                                ? Colors.indigo.shade700
-                                : Colors.indigo.shade600,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 0,
-                          ),
-                        ),
+                          ],
+                        ],
                       ),
                     ],
                   ),

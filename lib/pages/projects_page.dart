@@ -45,12 +45,20 @@ class _ProjectsPageState extends State<ProjectsPage>
 
   @override
   Widget build(BuildContext context) {
-    final projects = Project.sampleProjects;
+    final allProjects = Project.sampleProjects;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    // Filter categories (you can customize based on your projects)
-    final categories = ['All', 'Mobile', 'Web', 'UI/UX', 'Full Stack'];
+    // ✅ Apply Filter Logic
+    final filteredProjects = _selectedFilter == 'All'
+        ? allProjects
+        : allProjects.where((p) => p.category == _selectedFilter).toList();
+
+    // ✅ Categories dynamically based on data
+    final categories = [
+      'All',
+      ...{for (var p in allProjects) p.category},
+    ];
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -122,7 +130,7 @@ class _ProjectsPageState extends State<ProjectsPage>
               ),
               const SizedBox(height: 32),
 
-              // Filter Chips
+              // ✅ Filter Chips
               SlideTransition(
                 position: _slideAnimation,
                 child: FadeTransition(
@@ -213,7 +221,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${projects.length} Projects',
+                        '${filteredProjects.length} Projects',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -228,7 +236,7 @@ class _ProjectsPageState extends State<ProjectsPage>
               ),
               const SizedBox(height: 24),
 
-              // Projects Grid
+              // ✅ Filtered Projects Grid
               LayoutBuilder(
                 builder: (context, constraints) {
                   int crossAxisCount = 1;
@@ -247,8 +255,9 @@ class _ProjectsPageState extends State<ProjectsPage>
                       mainAxisSpacing: 20,
                       childAspectRatio: 0.85,
                     ),
-                    itemCount: projects.length,
+                    itemCount: filteredProjects.length,
                     itemBuilder: (context, index) {
+                      final project = filteredProjects[index];
                       return TweenAnimationBuilder<double>(
                         duration: Duration(milliseconds: 400 + (index * 100)),
                         tween: Tween<double>(begin: 0, end: 1),
@@ -258,7 +267,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                             opacity: value,
                             child: Transform.translate(
                               offset: Offset(0, 30 * (1 - value)),
-                              child: ProjectCard(project: projects[index]),
+                              child: ProjectCard(project: project),
                             ),
                           );
                         },

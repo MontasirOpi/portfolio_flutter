@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_flutter/pages/fun_fact_page.dart';
 import 'package:portfolio_flutter/pages/interests_activities_page.dart';
 import 'package:portfolio_flutter/pages/skill_page.dart';
 import 'package:portfolio_flutter/widgets/footer.dart';
 import 'package:portfolio_flutter/widgets/nav_bar.dart';
-
 import 'about_page.dart';
 import 'projects_page.dart';
 import 'contact_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final VoidCallback toggleTheme;
   final bool isDarkMode;
 
@@ -20,20 +18,76 @@ class HomePage extends StatelessWidget {
   });
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+  final List<GlobalKey> _sectionKeys = List.generate(5, (_) => GlobalKey());
+
+  final List<Widget> _pages = [
+    const AboutPage(),
+    ProjectsPage(),
+    const SkillsPage(),
+    const InterestsActivitiesPage(),
+    const ContactPage(),
+  ];
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _navigateToSection(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+
+    // Get the RenderBox of the target section
+    final context = _sectionKeys[index].currentContext;
+    if (context != null) {
+      final box = context.findRenderObject() as RenderBox?;
+      if (box != null) {
+        final position = box.localToGlobal(Offset.zero).dy;
+        final scrollPosition = _scrollController.position.pixels;
+
+        // Scroll to the section with smooth animation
+        _scrollController.animateTo(
+          scrollPosition + position - 80, // 80 is navbar height offset
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            NavBar(toggleTheme: toggleTheme, isDarkMode: isDarkMode),
-            const AboutPage(),
-            const ProjectsPage(),
-            const SkillsPage(),
-            const InterestsActivitiesPage(),
-            const ContactPage(),
-            const Footer(),
-          ],
-        ),
+      body: Column(
+        children: [
+          NavBar(
+            toggleTheme: widget.toggleTheme,
+            isDarkMode: widget.isDarkMode,
+            onNavigate: _navigateToSection,
+            currentIndex: _currentIndex,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                children: [
+                  // Wrap each page with a key for navigation
+                  for (int i = 0; i < _pages.length; i++)
+                    Container(key: _sectionKeys[i], child: _pages[i]),
+                  const Footer(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

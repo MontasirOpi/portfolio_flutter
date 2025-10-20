@@ -3,51 +3,80 @@ class Project {
   final String description;
   final String image;
   final String githubLink;
-  final String? networkImage; // ✅ Nullable (optional)
+  final String category; // ✅ Added category field
+  final String? networkImage; // Optional
+  final String? liveDemoLink; // Optional
 
   Project({
     required this.title,
     required this.description,
     required this.image,
     required this.githubLink,
+    required this.category,
     this.networkImage,
+    this.liveDemoLink,
   });
 
   static List<Project> get sampleProjects => [
+    // ✅ Mobile Projects
     Project(
       title: "Library Management System",
       description:
-          "A full-featured Flutter application designed to streamline and digitize the process of managing books, users, and transactions in a library environment. Flutter (Front-end), Supabase (Authentication + Database).",
+          "A full-featured Flutter app designed to manage books, users, and transactions efficiently. Built using Flutter (Front-end) and Supabase (Backend).",
       image: "assets/images/lms.jpg",
       githubLink: "https://github.com/MontasirOpi/library_management_system",
+      category: "Mobile",
     ),
     Project(
       title: "Grocery App Using BLoC",
       description:
-          "A simple Flutter grocery app using the BLoC pattern for clean state management. Users can browse grocery items, add to cart, and manage selections efficiently — ideal for beginners learning scalable app architecture.",
+          "A simple grocery app built with Flutter using the BLoC pattern for scalable and maintainable state management.",
       image: "assets/images/grocery.png",
       githubLink: "https://github.com/MontasirOpi/grocery_app_using_bloc",
+      category: "Mobile",
     ),
     Project(
       title: "Fast Food App",
       description:
-          "Browse food items, view details, and manage your cart. Built with Flutter and featuring category-based filtering, real-time cart updates, and smooth navigation with responsive UI design.",
+          "Browse foods, manage your cart, and enjoy smooth UI animations with this responsive Flutter food ordering app.",
       image: "assets/images/fastfood.jpg",
       githubLink: "https://github.com/MontasirOpi/FAST-FOOD-APP-FLUTTER",
+      category: "Mobile",
     ),
     Project(
       title: "Weather App",
       description:
-          "A Flutter weather app that fetches real-time data from OpenWeatherMap API, supports light/dark modes, and provides temperature, humidity, and wind details with clean, responsive design.",
+          "A weather app that fetches real-time data from OpenWeatherMap API. Includes dark mode and smooth animations.",
       image: "assets/images/weather.png",
       githubLink: "https://github.com/MontasirOpi/weather-app-using-flutter",
+      category: "Mobile",
     ),
     Project(
       title: "আবহাওয়া Pal (Weather Pal)",
       description:
-          "A bilingual weather app (Bangla & English) designed for Bangla-speaking users in Bangladesh and West Bengal. Provides real-time weather updates, forecasts, and local tips.",
+          "A bilingual weather app (Bangla & English) for Bangla-speaking users. Shows real-time forecasts and weather details.",
       image: "assets/images/abohawa_pal.jpg",
       githubLink: "https://github.com/MontasirOpi/weather_pal",
+      category: "Mobile",
     ),
+
+    // ✅ Web Projects
+    Project(
+      title: "tea Stall review website",
+      description:
+          "A modern tea stall review website built with react and firebase. Users can browse, review, and rate local tea stalls.",
+      image: "assets/images/tea.png",
+      githubLink: "https://github.com/MontasirOpi/TEA-STALL-REVIEW",
+      category: "Web",
+      liveDemoLink: "https://teareview.vercel.app/",
+    ),
+    // Project(
+    //   title: "Blog Dashboard (Admin Panel)",
+    //   description:
+    //       "A responsive blog admin dashboard for managing posts, users, and comments. Built using Flutter Web + Supabase for backend.",
+    //   image: "assets/images/blog_dashboard.jpg",
+    //   githubLink: "https://github.com/MontasirOpi/blog_dashboard_web",
+    //   category: "Web",
+    // ),
   ];
 }
