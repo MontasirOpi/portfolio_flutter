@@ -84,32 +84,7 @@ class _InterestsActivitiesPageState extends State<InterestsActivitiesPage>
       },
     ];
 
-    final techStack = [
-      {
-        'category': 'Mobile Development',
-        'icon': Icons.phone_android_rounded,
-        'items': ['Flutter', 'Dart', 'React Native', 'Android SDK'],
-        'color': Colors.blue,
-      },
-      {
-        'category': 'Backend & Database',
-        'icon': Icons.storage_rounded,
-        'items': ['Firebase', 'Supabase', 'MongoDB', 'RESTful APIs'],
-        'color': Colors.green,
-      },
-      {
-        'category': 'State Management',
-        'icon': Icons.settings_applications_rounded,
-        'items': ['GetX', 'BLoC', 'Provider', 'Riverpod'],
-        'color': Colors.orange,
-      },
-      {
-        'category': 'Tools & Platforms',
-        'icon': Icons.build_rounded,
-        'items': ['Git', 'VS Code', 'Android Studio', 'Figma'],
-        'color': Colors.purple,
-      },
-    ];
+
 
     final interests = [
       {
@@ -254,27 +229,23 @@ class _InterestsActivitiesPageState extends State<InterestsActivitiesPage>
   ) {
     return FadeTransition(
       opacity: controller,
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: isWide ? 4 : 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          childAspectRatio: 0.95,
-        ),
-        itemCount: topics.length,
-        itemBuilder: (context, index) {
-          final topic = topics[index];
-          return _buildLearningCard(
-            topic['icon'],
-            topic['title'],
-            topic['description'],
-            topic['color'],
-            topic['progress'],
-            isDark,
+      child: Wrap(
+        spacing: 20,
+        runSpacing: 20,
+        alignment: WrapAlignment.center,
+        children: topics.map((topic) {
+          return SizedBox(
+            width: isWide ? 320 : 340,
+            child: _buildLearningCard(
+              topic['icon'],
+              topic['title'],
+              topic['description'],
+              topic['color'],
+              topic['progress'],
+              isDark,
+            ),
           );
-        },
+        }).toList(),
       ),
     );
   }
@@ -388,120 +359,7 @@ class _InterestsActivitiesPageState extends State<InterestsActivitiesPage>
     );
   }
 
-  Widget _buildTechStackGrid(
-    List<Map<String, dynamic>> stack,
-    bool isDark,
-    bool isWide,
-    AnimationController controller,
-  ) {
-    return FadeTransition(
-      opacity: controller,
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: isWide ? 2 : 1,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          childAspectRatio: isWide ? 2.2 : 1.5,
-        ),
-        itemCount: stack.length,
-        itemBuilder: (context, index) {
-          final item = stack[index];
-          return _buildTechStackCard(
-            item['category'],
-            item['icon'],
-            item['items'],
-            item['color'],
-            isDark,
-          );
-        },
-      ),
-    );
-  }
 
-  Widget _buildTechStackCard(
-    String category,
-    IconData icon,
-    List<String> items,
-    MaterialColor color,
-    bool isDark,
-  ) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: isDark ? Colors.grey.shade900 : Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
-        ),
-        boxShadow: [
-          if (!isDark)
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 15,
-              offset: const Offset(0, 5),
-            ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [color.withOpacity(0.8), color],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(icon, color: Colors.white, size: 24),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  category,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: items.map((item) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(isDark ? 0.2 : 0.1),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: color.withOpacity(0.3)),
-                ),
-                child: Text(
-                  item,
-                  style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: isDark ? color.shade200 : color.shade700,
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildInterestsGrid(
     List<Map<String, dynamic>> interests,
@@ -511,25 +369,21 @@ class _InterestsActivitiesPageState extends State<InterestsActivitiesPage>
   ) {
     return FadeTransition(
       opacity: controller,
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: isWide ? 3 : 1,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          childAspectRatio: isWide ? 1.8 : 2.5,
-        ),
-        itemCount: interests.length,
-        itemBuilder: (context, index) {
-          final interest = interests[index];
-          return _buildInterestCard(
-            interest['icon'],
-            interest['title'],
-            interest['description'],
-            isDark,
+      child: Wrap(
+        spacing: 20,
+        runSpacing: 20,
+        alignment: WrapAlignment.center,
+        children: interests.map((interest) {
+          return SizedBox(
+            width: isWide ? 400 : double.infinity,
+            child: _buildInterestCard(
+              interest['icon'],
+              interest['title'],
+              interest['description'],
+              isDark,
+            ),
           );
-        },
+        }).toList(),
       ),
     );
   }
