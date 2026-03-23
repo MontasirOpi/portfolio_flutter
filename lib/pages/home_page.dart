@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/pages/interests_activities_page.dart';
 import 'package:portfolio_flutter/pages/skill_page.dart';
+import 'package:portfolio_flutter/pages/work_experience_page.dart';
 import 'package:portfolio_flutter/widgets/footer.dart';
 import 'package:portfolio_flutter/widgets/nav_bar.dart';
 import 'about_page.dart';
@@ -24,12 +25,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final ScrollController _scrollController = ScrollController();
-  final List<GlobalKey> _sectionKeys = List.generate(5, (_) => GlobalKey());
+  // 6 sections: About, Projects, Skills, Experience, Interests, Contact
+  final List<GlobalKey> _sectionKeys = List.generate(6, (_) => GlobalKey());
 
   final List<Widget> _pages = [
     const AboutPage(),
     ProjectsPage(),
     const SkillsPage(),
+    const WorkExperiencePage(),
     const InterestsActivitiesPage(),
     const ContactPage(),
   ];
@@ -45,7 +48,6 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = index;
     });
 
-    // Get the RenderBox of the target section
     final context = _sectionKeys[index].currentContext;
     if (context != null) {
       final box = context.findRenderObject() as RenderBox?;
@@ -53,9 +55,8 @@ class _HomePageState extends State<HomePage> {
         final position = box.localToGlobal(Offset.zero).dy;
         final scrollPosition = _scrollController.position.pixels;
 
-        // Scroll to the section with smooth animation
         _scrollController.animateTo(
-          scrollPosition + position - 80, // 80 is navbar height offset
+          scrollPosition + position - 80,
           duration: const Duration(milliseconds: 800),
           curve: Curves.easeInOut,
         );
@@ -79,7 +80,6 @@ class _HomePageState extends State<HomePage> {
               controller: _scrollController,
               child: Column(
                 children: [
-                  // Wrap each page with a key for navigation
                   for (int i = 0; i < _pages.length; i++)
                     Container(key: _sectionKeys[i], child: _pages[i]),
                   const Footer(),
