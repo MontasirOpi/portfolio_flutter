@@ -1,23 +1,35 @@
 class Project {
   final String title;
   final String description;
-  final String image;
+  final String? image; // Made nullable
   final String githubLink;
-  final String category; // ✅ Added category field
-  final String? networkImage; // Optional
-  final String? liveDemoLink; // Optional
+  final String category;
+  final String? networkImage;
+  final String? liveDemoLink;
+  final String? pubDevLink; // New field for Pub.dev packages
 
   Project({
     required this.title,
     required this.description,
-    required this.image,
+    this.image,
     required this.githubLink,
     required this.category,
     this.networkImage,
     this.liveDemoLink,
+    this.pubDevLink,
   });
 
   static List<Project> get sampleProjects => [
+    // ✅ Packages
+    Project(
+      title: "date_with_range_picker",
+      description:
+          "A highly customizable flutter package for selecting a single date or a date range with a premium user interface and ease of use.",
+      githubLink: "https://github.com/MontasirOpi/date_range_picker",
+      category: "Package",
+      pubDevLink: "https://pub.dev/packages/date_with_range_picker",
+    ),
+
     // ✅ Mobile Projects
     Project(
       title: "Library Management System",
@@ -62,7 +74,7 @@ class Project {
 
     // ✅ Web Projects
     Project(
-      title: "tea Stall review website",
+      title: "Tea Stall Review Website",
       description:
           "A modern tea stall review website built with react and firebase. Users can browse, review, and rate local tea stalls.",
       image: "assets/images/tea.png",
@@ -70,13 +82,5 @@ class Project {
       category: "Web",
       liveDemoLink: "https://teareview.vercel.app/",
     ),
-    // Project(
-    //   title: "Blog Dashboard (Admin Panel)",
-    //   description:
-    //       "A responsive blog admin dashboard for managing posts, users, and comments. Built using Flutter Web + Supabase for backend.",
-    //   image: "assets/images/blog_dashboard.jpg",
-    //   githubLink: "https://github.com/MontasirOpi/blog_dashboard_web",
-    //   category: "Web",
-    // ),
   ];
 }

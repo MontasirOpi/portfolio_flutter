@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:portfolio_flutter/pages/interests_activities_page.dart';
 import 'package:portfolio_flutter/pages/skill_page.dart';
 import 'package:portfolio_flutter/pages/work_experience_page.dart';

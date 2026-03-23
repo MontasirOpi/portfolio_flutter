@@ -237,44 +237,36 @@ class _ProjectsPageState extends State<ProjectsPage>
               const SizedBox(height: 24),
 
               // ✅ Filtered Projects Grid
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  int crossAxisCount = 1;
-                  if (constraints.maxWidth >= 1200) {
-                    crossAxisCount = 3;
-                  } else if (constraints.maxWidth >= 800) {
-                    crossAxisCount = 2;
-                  }
-
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      childAspectRatio: 0.85,
-                    ),
-                    itemCount: filteredProjects.length,
-                    itemBuilder: (context, index) {
-                      final project = filteredProjects[index];
-                      return TweenAnimationBuilder<double>(
-                        duration: Duration(milliseconds: 400 + (index * 100)),
-                        tween: Tween<double>(begin: 0, end: 1),
-                        curve: Curves.easeOutCubic,
-                        builder: (context, value, child) {
-                          return Opacity(
-                            opacity: value,
-                            child: Transform.translate(
-                              offset: Offset(0, 30 * (1 - value)),
+              Center(
+                child: Wrap(
+                  spacing: 24,
+                  runSpacing: 24,
+                  alignment: WrapAlignment.center,
+                  children: filteredProjects.map((project) {
+                    final index = filteredProjects.indexOf(project);
+                    return TweenAnimationBuilder<double>(
+                      // Clamp delay to avoid extremely long delays on many projects
+                      duration: Duration(
+                          milliseconds:
+                              400 + (index * 100).clamp(0, 600).toInt()),
+                      tween: Tween<double>(begin: 0, end: 1),
+                      curve: Curves.easeOutCubic,
+                      builder: (context, value, child) {
+                        return Opacity(
+                          opacity: value,
+                          child: Transform.translate(
+                            offset: Offset(0, 30 * (1 - value)),
+                            child: SizedBox(
+                              width: 320,
+                              height: 480, // Enforces aspect ratio gracefully
                               child: ProjectCard(project: project),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
             ],
           ),
