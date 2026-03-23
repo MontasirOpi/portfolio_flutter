@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio_flutter/models/project.dart';
 import 'package:portfolio_flutter/widgets/project_card.dart';
 
@@ -6,7 +7,7 @@ class ProjectsPage extends StatefulWidget {
   const ProjectsPage({super.key});
 
   @override
-  _ProjectsPageState createState() => _ProjectsPageState();
+  State<ProjectsPage> createState() => _ProjectsPageState();
 }
 
 class _ProjectsPageState extends State<ProjectsPage>
@@ -46,197 +47,100 @@ class _ProjectsPageState extends State<ProjectsPage>
   @override
   Widget build(BuildContext context) {
     final allProjects = Project.sampleProjects;
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
-    // ✅ Apply Filter Logic
     final filteredProjects = _selectedFilter == 'All'
         ? allProjects
         : allProjects.where((p) => p.category == _selectedFilter).toList();
 
-    // ✅ Categories dynamically based on data
     final categories = [
       'All',
       ...{for (var p in allProjects) p.category},
     ];
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1400),
+          constraints: const BoxConstraints(maxWidth: 1200),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Section
               SlideTransition(
                 position: _slideAnimation,
                 child: FadeTransition(
                   opacity: _fadeAnimation,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: isDark
-                                    ? [
-                                        Colors.indigo.shade700,
-                                        Colors.purple.shade700,
-                                      ]
-                                    : [
-                                        Colors.indigo.shade400,
-                                        Colors.purple.shade400,
-                                      ],
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.work_rounded,
-                              color: Colors.white,
-                              size: 32,
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            "My Projects",
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: isDark ? Colors.white : Colors.black87,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
                       Text(
-                        "Explore my portfolio of innovative applications",
-                        style: TextStyle(
+                        '// PROJECTS',
+                        style: GoogleFonts.jetBrainsMono(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF24DB67),
+                          letterSpacing: 2,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Explore my portfolio of innovative applications and packages.',
+                        style: GoogleFonts.spaceGrotesk(
                           fontSize: 16,
-                          color: isDark
-                              ? Colors.grey.shade400
-                              : Colors.grey.shade600,
-                          letterSpacing: 0.3,
+                          color: const Color(0xFF9CA3AF),
                         ),
-                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 32),
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: categories.map((category) {
+                          final isSelected = _selectedFilter == category;
+                          return MouseRegion(
+                            cursor: SystemMouseCursors.click,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedFilter = category;
+                                });
+                              },
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? const Color(0xFF24DB67).withOpacity(0.1)
+                                      : Colors.transparent,
+                                  border: Border.all(
+                                    color: isSelected
+                                        ? const Color(0xFF24DB67)
+                                        : const Color(0xFF1F2937),
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  category,
+                                  style: GoogleFonts.jetBrainsMono(
+                                    fontSize: 14,
+                                    color: isSelected
+                                        ? const Color(0xFF24DB67)
+                                        : const Color(0xFF9CA3AF),
+                                    fontWeight: isSelected
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 32),
-
-              // ✅ Filter Chips
-              SlideTransition(
-                position: _slideAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Center(
-                    child: Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      alignment: WrapAlignment.center,
-                      children: categories.map((category) {
-                        final isSelected = _selectedFilter == category;
-                        return FilterChip(
-                          label: Text(
-                            category,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: isSelected
-                                  ? Colors.white
-                                  : (isDark
-                                        ? Colors.grey.shade300
-                                        : Colors.grey.shade700),
-                            ),
-                          ),
-                          selected: isSelected,
-                          onSelected: (selected) {
-                            setState(() {
-                              _selectedFilter = category;
-                            });
-                          },
-                          backgroundColor: isDark
-                              ? Colors.grey.shade800
-                              : Colors.grey.shade200,
-                          selectedColor: isDark
-                              ? Colors.indigo.shade700
-                              : Colors.indigo.shade500,
-                          checkmarkColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: BorderSide(
-                              color: isSelected
-                                  ? (isDark
-                                        ? Colors.indigo.shade500
-                                        : Colors.indigo.shade400)
-                                  : Colors.transparent,
-                              width: 2,
-                            ),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 10,
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
-
-              // Projects Count
-              FadeTransition(
-                opacity: _fadeAnimation,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isDark
-                        ? Colors.indigo.shade900.withOpacity(0.3)
-                        : Colors.indigo.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: isDark
-                          ? Colors.indigo.shade700
-                          : Colors.indigo.shade200,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.folder_rounded,
-                        color: isDark
-                            ? Colors.indigo.shade300
-                            : Colors.indigo.shade700,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        '${filteredProjects.length} Projects',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: isDark
-                              ? Colors.indigo.shade200
-                              : Colors.indigo.shade700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              // ✅ Filtered Projects Grid
+              const SizedBox(height: 48),
               Center(
                 child: Wrap(
                   spacing: 24,
@@ -245,10 +149,9 @@ class _ProjectsPageState extends State<ProjectsPage>
                   children: filteredProjects.map((project) {
                     final index = filteredProjects.indexOf(project);
                     return TweenAnimationBuilder<double>(
-                      // Clamp delay to avoid extremely long delays on many projects
                       duration: Duration(
-                          milliseconds:
-                              400 + (index * 100).clamp(0, 600).toInt()),
+                        milliseconds: 400 + (index * 100).clamp(0, 600).toInt(),
+                      ),
                       tween: Tween<double>(begin: 0, end: 1),
                       curve: Curves.easeOutCubic,
                       builder: (context, value, child) {
@@ -258,7 +161,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                             offset: Offset(0, 30 * (1 - value)),
                             child: SizedBox(
                               width: 320,
-                              height: 480, // Enforces aspect ratio gracefully
+                              height: 480,
                               child: ProjectCard(project: project),
                             ),
                           ),
