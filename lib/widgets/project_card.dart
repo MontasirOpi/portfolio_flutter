@@ -159,6 +159,15 @@ class _ProjectCardState extends State<ProjectCard> {
                             label: 'Demo',
                             url: widget.project.liveDemoLink!,
                           ),
+                        if (widget.project.playStoreLink != null)
+                          _buildActionButton(
+                            iconPath: null,
+                            iconData: Icons.play_arrow_rounded,
+                            label: 'Play Store',
+                            url: widget.project.playStoreLink!,
+                          ),
+
+
                       ],
                     ),
                   ],

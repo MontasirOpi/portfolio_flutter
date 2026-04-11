@@ -97,7 +97,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
           width: 2,
         ),
         image: const DecorationImage(
-          image: AssetImage('assets/images/opi1.jpg'),
+          image: AssetImage('assets/images/profile.jpeg'),
           fit: BoxFit.cover,
         ),
       ),

@@ -7,6 +7,8 @@ class Project {
   final String? networkImage;
   final String? liveDemoLink;
   final String? pubDevLink; // New field for Pub.dev packages
+  final String? playStoreLink; // New field for Play Store apps
+
 
   Project({
     required this.title,
@@ -17,6 +19,7 @@ class Project {
     this.networkImage,
     this.liveDemoLink,
     this.pubDevLink,
+    this.playStoreLink,
   });
 
   static List<Project> get sampleProjects => [
@@ -31,6 +34,16 @@ class Project {
     ),
 
     // ✅ Mobile Projects
+
+    Project(
+      title: "Jomi Converter BD",
+      description:
+      "A land measurement converter app for Bangladesh with simple and user-friendly UI.",
+      image: "assets/images/jomi.jpg",
+      githubLink: "https://github.com/MontasirOpi/jomi_converter",
+      playStoreLink: "https://play.google.com/store/apps/details?id=app.opi.land",
+      category: "Mobile",
+    ),
     Project(
       title: "Library Management System",
       description:
@@ -71,6 +84,7 @@ class Project {
       githubLink: "https://github.com/MontasirOpi/weather_pal",
       category: "Mobile",
     ),
+
 
     // ✅ Web Projects
     Project(

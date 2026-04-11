@@ -22,14 +22,28 @@ class _WorkExperiencePageState extends State<WorkExperiencePage>
       'endDate': 'Present',
       'isCurrent': true,
       'description':
-          'Leading mobile development efforts to build scalable, production-ready Flutter applications for both Android and iOS platforms. Responsible for architecting features, conducting code reviews, and mentoring junior developers. Actively involved in sprint planning and agile processes.',
-      'skills': ['Flutter', 'Dart', 'BLoC', 'Firebase', 'REST API', 'CI/CD'],
+      'Leading mobile development efforts to build scalable, production-ready Flutter applications for both Android and iOS platforms. Responsible for architecting features, conducting code reviews, and mentoring junior developers. Actively involved in sprint planning and agile processes.',
+      'skills': ['Flutter', 'Dart', 'GetX', 'Firebase', 'REST API', 'CI/CD'],
       'achievements': [
-        'Leading mobile development for 3+ production apps',
-        'Implemented CI/CD pipeline for automated deployments',
-        'Reduced app crash rate by 40% through robust error handling',
+        // Product Development
+        'Designed and developed a cross-platform Flutter application managing end-to-end OTA solution workflows, delivering a seamless experience across Android and iOS',
+        'Built module-based UI components for OTA campaign management, enabling operations teams to create, schedule, and monitor software update rollouts from a single mobile interface',
+
+        // OTA-Specific Features
+        'Implemented real-time update tracking screens displaying live download progress, version delta information, device eligibility checks, and deployment success/failure statuses',
+        'Developed device fleet management views allowing users to filter, group, and push OTA updates to targeted device segments',
+
+        // API & Systems Integration
+        'Integrated with OTA solution backend APIs to handle core operations including update package distribution, version control, rollback triggers, and deployment analytics',
+        'Connected the Flutter app with MQTT/WebSocket streams to reflect real-time device update states across large device fleets',
+
+        // Impact
+        'Led mobile development across 10+ production apps deployed on both Android and iOS platforms',
+        'Implemented a CI/CD pipeline for automated builds and deployments, reducing manual release effort',
+
       ],
     },
+
     {
       'company': 'Eon System',
       'role': 'Junior Flutter Developer',

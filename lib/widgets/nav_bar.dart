@@ -136,7 +136,7 @@ class _NavBarState extends State<NavBar> {
 
   Widget _buildLogo() {
     return Text(
-      "Fahim Opi",
+      "OPI",
       style: GoogleFonts.spaceGrotesk(
         fontSize: 24,
         fontWeight: FontWeight.bold,
