@@ -385,54 +385,7 @@ class _ProjectCardDetails extends StatelessWidget {
               }).toList(),
             ),
           ),
-          const SizedBox(height: 8),
-          // Metrics Row
-          if (project.userMetric != null || project.performanceMetric != null) ...[
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF0C0E12),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFF1F2937)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (project.userMetric != null)
-                    Row(
-                      children: [
-                        const Icon(Icons.people_outline_rounded, size: 13, color: Color(0xFF24DB67)),
-                        const SizedBox(width: 6),
-                        Text(
-                          project.userMetric!,
-                          style: GoogleFonts.jetBrainsMono(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  if (project.performanceMetric != null)
-                    Row(
-                      children: [
-                        const Icon(Icons.speed_rounded, size: 13, color: Color(0xFF24DB67)),
-                        const SizedBox(width: 6),
-                        Text(
-                          project.performanceMetric!,
-                          style: GoogleFonts.jetBrainsMono(
-                            fontSize: 10,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 12),
-          ],
+          const SizedBox(height: 12),
           // Buttons CTA Wrap
           Wrap(
             spacing: 8,

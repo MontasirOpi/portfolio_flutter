@@ -165,7 +165,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                             offset: Offset(0, 30 * (1 - value)),
                             child: SizedBox(
                               width: 360,
-                              height: 640,
+                              height: 550,
                               child: ProjectCard(project: project),
                             ),
                           ),
