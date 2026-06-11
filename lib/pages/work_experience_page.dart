@@ -9,93 +9,84 @@ class WorkExperiencePage extends StatefulWidget {
 }
 
 class _WorkExperiencePageState extends State<WorkExperiencePage>
-    with TickerProviderStateMixin {
-  late AnimationController _timelineController;
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
 
   final List<Map<String, dynamic>> _experiences = [
     {
-      'company': 'Innovate Solution',
+      'company': 'Innovate Solutions',
       'role': 'Associate Software Engineer',
-      'type': 'Full-time · Mobile Application Developer',
-      'duration': 'Present',
-      'startDate': 'Nov 2025',
-      'endDate': 'Present',
+      'duration': 'Nov 2025 - Present',
       'isCurrent': true,
-      'description':
-      'Leading mobile development efforts to build scalable, production-ready Flutter applications for both Android and iOS platforms. Responsible for architecting features, conducting code reviews, and mentoring junior developers. Actively involved in sprint planning and agile processes.',
-      'skills': ['Flutter', 'Dart', 'GetX', 'Firebase', 'REST API', 'CI/CD'],
-      'achievements': [
-        // Product Development
-        'Designed and developed a cross-platform Flutter application managing end-to-end OTA solution workflows, delivering a seamless experience across Android and iOS',
-        'Built module-based UI components for OTA campaign management, enabling operations teams to create, schedule, and monitor software update rollouts from a single mobile interface',
-
-        // OTA-Specific Features
-        'Implemented real-time update tracking screens displaying live download progress, version delta information, device eligibility checks, and deployment success/failure statuses',
-        'Developed device fleet management views allowing users to filter, group, and push OTA updates to targeted device segments',
-
-        // API & Systems Integration
-        'Integrated with OTA solution backend APIs to handle core operations including update package distribution, version control, rollback triggers, and deployment analytics',
-        'Connected the Flutter app with MQTT/WebSocket streams to reflect real-time device update states across large device fleets',
-
-        // Impact
-        'Led mobile development across 10+ production apps deployed on both Android and iOS platforms',
-        'Implemented a CI/CD pipeline for automated builds and deployments, reducing manual release effort',
-
+      'responsibilities': [
+        'Developed and maintained OTA (Online Travel Agency) mobile applications using Flutter and GetX.',
+        'Integrated REST APIs for flight, hotel, transfer, insurance, and eSIM booking systems.',
+        'Published and maintained Android and iOS applications on the Google Play Store & Apple App Store.',
+        'Collaborated with cross-functional teams to deliver scalable, high-performance travel booking solutions.',
+        'Improved application performance, UI consistency, memory allocations, and code maintainability.',
+        'Integrated dynamic WebSocket streams to handle real-time statuses across device fleets.',
       ],
+      'technologies': ['Flutter', 'Dart', 'GetX', 'REST API', 'Firebase', 'eSIM Integration', 'OTA Systems', 'WebSocket'],
     },
-
     {
       'company': 'Eon System',
       'role': 'Junior Flutter Developer',
-      'type': 'Internship',
-      'duration': '3 Months',
-      'startDate': 'Aug 2025',
-      'endDate': 'Oct 2025',
+      'duration': 'Aug 2025 - Oct 2025',
       'isCurrent': false,
-      'description':
-          'Started my professional journey as a Junior Flutter Developer intern. Worked on building cross-platform mobile applications using Flutter & Dart. Collaborated with senior developers to design and implement UI components, integrate RESTful APIs, and manage app state using GetX.',
-      'skills': ['Flutter', 'Dart', 'GetX', 'REST API', 'Git'],
-      'achievements': [
-        'Built 2 complete mobile app modules from scratch',
-        'Integrated payment gateway API',
-        'Improved app performance by optimizing widget builds',
+      'responsibilities': [
+        'Worked on building cross-platform mobile applications using Flutter & Dart.',
+        'Collaborated with senior developers to design and implement premium, responsive UI components.',
+        'Integrated third-party payment gateway APIs and RESTful services.',
+        'Managed application state using GetX state management structures.',
+        'Built 2 complete mobile app modules from scratch and optimized rendering lifecycles.',
       ],
+      'technologies': ['Flutter', 'Dart', 'GetX', 'REST API', 'Git', 'Payment Integration'],
     },
   ];
 
   @override
   void initState() {
     super.initState();
-    _timelineController = AnimationController(
-      duration: const Duration(milliseconds: 1400),
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted) _timelineController.forward();
-    });
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+    _controller.forward();
   }
 
   @override
   void dispose() {
-    _timelineController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isWide = size.width > 900;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
+      padding: EdgeInsets.symmetric(
+        horizontal: isWide ? 64 : 24,
+        vertical: 80,
+      ),
       child: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(),
-              const SizedBox(height: 48),
-              _buildTimeline(),
-            ],
+          constraints: const BoxConstraints(maxWidth: 900),
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+                const SizedBox(height: 48),
+                _buildTimeline(isWide),
+              ],
+            ),
           ),
         ),
       ),
@@ -117,7 +108,7 @@ class _WorkExperiencePageState extends State<WorkExperiencePage>
         ),
         const SizedBox(height: 16),
         Text(
-          'My professional journey in software development.',
+          'My professional journey in software engineering and mobile development.',
           style: GoogleFonts.spaceGrotesk(
             fontSize: 16,
             color: const Color(0xFF9CA3AF),
@@ -127,51 +118,99 @@ class _WorkExperiencePageState extends State<WorkExperiencePage>
     );
   }
 
-  Widget _buildTimeline() {
+  Widget _buildTimeline(bool isWide) {
     return Column(
       children: List.generate(_experiences.length, (index) {
         final exp = _experiences[index];
+        final isLast = index == _experiences.length - 1;
 
-        return AnimatedBuilder(
-          animation: _timelineController,
-          builder: (context, child) {
-            final delay = index * 0.3;
-            final progress = (_timelineController.value - delay).clamp(0.0, 1.0);
-            final curve = Curves.easeOutCubic.transform(progress);
-
-            return Opacity(
-              opacity: curve,
-              child: Transform.translate(
-                offset: Offset(0, 40 * (1 - curve)),
-                child: child,
+        return IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Vertical timeline line and glowing node
+              _buildTimelineIndicator(exp['isCurrent'] as bool, isLast),
+              const SizedBox(width: 24),
+              // Timeline details card
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: _buildExperienceCard(exp, isWide),
+                ),
               ),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 32),
-            child: _buildExperienceCard(exp),
+            ],
           ),
         );
       }),
     );
   }
 
-  Widget _buildExperienceCard(Map<String, dynamic> exp) {
+  Widget _buildTimelineIndicator(bool isCurrent, bool isLast) {
+    return SizedBox(
+      width: 24,
+      child: Column(
+        children: [
+          // Glowing Circle Node
+          Container(
+            width: 16,
+            height: 16,
+            decoration: BoxDecoration(
+              color: isCurrent ? const Color(0xFF24DB67) : const Color(0xFF0C0E12),
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isCurrent ? const Color(0xFF24DB67) : const Color(0xFF1F2937),
+                width: 3,
+              ),
+              boxShadow: isCurrent
+                  ? [
+                      BoxShadow(
+                        color: const Color(0xFF24DB67).withValues(alpha: 0.4),
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : null,
+            ),
+          ),
+          // Vertical Line segment
+          if (!isLast)
+            Expanded(
+              child: Container(
+                width: 2,
+                color: const Color(0xFF1F2937),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExperienceCard(Map<String, dynamic> exp, bool isWide) {
     final bool isCurrent = exp['isCurrent'] as bool;
+    final responsibilities = exp['responsibilities'] as List<String>;
+    final technologies = exp['technologies'] as List<String>;
 
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF14161A),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isCurrent ? const Color(0xFF24DB67).withOpacity(0.5) : const Color(0xFF1F2937),
-          width: 1,
+          color: isCurrent ? const Color(0xFF24DB67).withValues(alpha: 0.4) : const Color(0xFF1F2937),
+          width: 1.2,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(isWide ? 28 : 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header: Role, Company and Date
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,96 +220,107 @@ class _WorkExperiencePageState extends State<WorkExperiencePage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      exp['company'] as String,
-                      style: GoogleFonts.spaceGrotesk(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF24DB67),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
                       exp['role'] as String,
                       style: GoogleFonts.spaceGrotesk(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                         color: Colors.white,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      exp['company'] as String,
+                      style: GoogleFonts.spaceGrotesk(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF24DB67),
                       ),
                     ),
                   ],
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              if (isWide) _buildDateBadge(exp['duration'] as String),
+            ],
+          ),
+          if (!isWide) ...[
+            const SizedBox(height: 12),
+            _buildDateBadge(exp['duration'] as String),
+          ],
+          const SizedBox(height: 20),
+          // Divider
+          Container(height: 1, color: const Color(0xFF1F2937)),
+          const SizedBox(height: 16),
+          // Responsibilities Checklist
+          ...responsibilities.map((resp) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 4.0),
+                      child: Icon(
+                        Icons.circle,
+                        size: 6,
+                        color: Color(0xFF24DB67),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        resp,
+                        style: GoogleFonts.spaceGrotesk(
+                          fontSize: 14.5,
+                          color: const Color(0xFF9CA3AF),
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )),
+          const SizedBox(height: 20),
+          // Tech Badges Wrap
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: technologies.map((tech) {
+              return Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: const Color(0xFF0C0E12),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(6),
                   border: Border.all(color: const Color(0xFF1F2937)),
                 ),
                 child: Text(
-                  '${exp['startDate']} - ${exp['endDate']}',
+                  tech,
                   style: GoogleFonts.jetBrainsMono(
-                    fontSize: 12,
+                    fontSize: 11,
                     color: const Color(0xFF9CA3AF),
                   ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          Text(
-            exp['description'] as String,
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 16,
-              color: const Color(0xFFE0E6EB),
-              height: 1.6,
-            ),
-          ),
-          const SizedBox(height: 24),
-          ...((exp['achievements'] as List<String>).map(
-            (a) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '>',
-                    style: TextStyle(
-                      color: Color(0xFF24DB67),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      a,
-                      style: GoogleFonts.spaceGrotesk(
-                        fontSize: 15,
-                        color: const Color(0xFF9CA3AF),
-                        height: 1.5,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )),
-          const SizedBox(height: 24),
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: (exp['skills'] as List<String>).map((skill) {
-              return Text(
-                '#$skill',
-                style: GoogleFonts.jetBrainsMono(
-                  fontSize: 13,
-                  color: const Color(0xFF24DB67).withOpacity(0.8),
                 ),
               );
             }).toList(),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDateBadge(String duration) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0C0E12),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: const Color(0xFF1F2937)),
+      ),
+      child: Text(
+        duration,
+        style: GoogleFonts.jetBrainsMono(
+          fontSize: 11.5,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

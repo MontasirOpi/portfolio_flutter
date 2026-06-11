@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_flutter/pages/interests_activities_page.dart';
+import 'package:portfolio_flutter/pages/hero_section.dart';
 import 'package:portfolio_flutter/pages/skill_page.dart';
 import 'package:portfolio_flutter/pages/work_experience_page.dart';
 import 'package:portfolio_flutter/widgets/footer.dart';
@@ -25,17 +25,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final ScrollController _scrollController = ScrollController();
-  // 6 sections: About, Projects, Skills, Experience, Interests, Contact
+  // 6 sections: Hero, About, Projects, Experience, Skills, Contact
   final List<GlobalKey> _sectionKeys = List.generate(6, (_) => GlobalKey());
 
-  final List<Widget> _pages = [
-    const AboutPage(),
-    ProjectsPage(),
-    const SkillsPage(),
-    const WorkExperiencePage(),
-    const InterestsActivitiesPage(),
-    const ContactPage(),
-  ];
+  late final List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      HeroSection(onViewProjects: () => _navigateToSection(2)), // Index 2: Projects
+      const AboutPage(),
+      const ProjectsPage(),
+      const WorkExperiencePage(),
+      const SkillsPage(),
+      const ContactPage(),
+    ];
+  }
 
   @override
   void dispose() {
@@ -81,13 +87,72 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   for (int i = 0; i < _pages.length; i++)
-                    Container(key: _sectionKeys[i], child: _pages[i]),
+                    Container(
+                      key: _sectionKeys[i],
+                      child: DeferredSection(
+                        delay: Duration(milliseconds: 150 * i), // Stagger page rendering to defer layout pressure
+                        child: _pages[i],
+                      ),
+                    ),
                   const Footer(),
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A wrapper widget that defers the building of heavy page trees
+/// to separate frames, improving initial frame rendering speed.
+class DeferredSection extends StatefulWidget {
+  final Widget child;
+  final Duration delay;
+
+  const DeferredSection({
+    super.key,
+    required this.child,
+    required this.delay,
+  });
+
+  @override
+  State<DeferredSection> createState() => _DeferredSectionState();
+}
+
+class _DeferredSectionState extends State<DeferredSection> {
+  bool _shouldRender = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.delay == Duration.zero) {
+      _shouldRender = true;
+    } else {
+      Future.delayed(widget.delay, () {
+        if (mounted) {
+          setState(() {
+            _shouldRender = true;
+          });
+        }
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_shouldRender) {
+      return widget.child;
+    }
+    // Lightweight placeholder size to reserve coordinate offsets for scroll navigation
+    return const SizedBox(
+      height: 400,
+      child: Center(
+        child: CircularProgressIndicator(
+          color: Color(0xFF24DB67),
+          strokeWidth: 2,
+        ),
       ),
     );
   }

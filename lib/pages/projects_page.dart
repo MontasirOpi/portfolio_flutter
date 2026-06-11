@@ -17,9 +17,19 @@ class _ProjectsPageState extends State<ProjectsPage>
   late Animation<Offset> _slideAnimation;
   String _selectedFilter = 'All';
 
+  // Cache calculations to optimize performance
+  late final List<Project> _allProjects;
+  late final List<String> _categories;
+
   @override
   void initState() {
     super.initState();
+    _allProjects = Project.sampleProjects;
+    _categories = [
+      'All',
+      ...{for (var p in _allProjects) p.category},
+    ];
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -46,15 +56,9 @@ class _ProjectsPageState extends State<ProjectsPage>
 
   @override
   Widget build(BuildContext context) {
-    final allProjects = Project.sampleProjects;
     final filteredProjects = _selectedFilter == 'All'
-        ? allProjects
-        : allProjects.where((p) => p.category == _selectedFilter).toList();
-
-    final categories = [
-      'All',
-      ...{for (var p in allProjects) p.category},
-    ];
+        ? _allProjects
+        : _allProjects.where((p) => p.category == _selectedFilter).toList();
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 80),
@@ -92,7 +96,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                       Wrap(
                         spacing: 12,
                         runSpacing: 12,
-                        children: categories.map((category) {
+                        children: _categories.map((category) {
                           final isSelected = _selectedFilter == category;
                           return MouseRegion(
                             cursor: SystemMouseCursors.click,
@@ -110,7 +114,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? const Color(0xFF24DB67).withOpacity(0.1)
+                                      ? const Color(0xFF24DB67).withValues(alpha: 0.1)
                                       : Colors.transparent,
                                   border: Border.all(
                                     color: isSelected
@@ -160,8 +164,8 @@ class _ProjectsPageState extends State<ProjectsPage>
                           child: Transform.translate(
                             offset: Offset(0, 30 * (1 - value)),
                             child: SizedBox(
-                              width: 320,
-                              height: 480,
+                              width: 360,
+                              height: 640,
                               child: ProjectCard(project: project),
                             ),
                           ),

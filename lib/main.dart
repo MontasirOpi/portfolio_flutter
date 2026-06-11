@@ -15,15 +15,29 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isDarkMode = true;
+  late final FocusNode _selectableFocusNode;
+  late final TextTheme _lightTextTheme;
+  late final TextTheme _darkTextTheme;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectableFocusNode = FocusNode();
+    // Cache fonts to avoid lookup allocations on every frame build
+    _lightTextTheme = GoogleFonts.spaceGroteskTextTheme(ThemeData.light().textTheme);
+    _darkTextTheme = GoogleFonts.spaceGroteskTextTheme(ThemeData.dark().textTheme);
+  }
+
+  @override
+  void dispose() {
+    _selectableFocusNode.dispose();
+    super.dispose();
+  }
 
   void toggleTheme() {
     setState(() {
       isDarkMode = !isDarkMode;
     });
-  }
-
-  TextTheme _buildTextTheme(TextTheme base) {
-    return GoogleFonts.spaceGroteskTextTheme(base);
   }
 
   @override
@@ -39,7 +53,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: lightBg,
         primaryColor: primaryNeon,
-        textTheme: _buildTextTheme(ThemeData.light().textTheme),
+        textTheme: _lightTextTheme,
         colorScheme: ColorScheme.fromSeed(
           seedColor: primaryNeon,
           brightness: Brightness.light,
@@ -49,18 +63,17 @@ class _MyAppState extends State<MyApp> {
       darkTheme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: darkBg,
         primaryColor: primaryNeon,
-        textTheme: _buildTextTheme(ThemeData.dark().textTheme),
+        textTheme: _darkTextTheme,
         colorScheme: ColorScheme.fromSeed(
           seedColor: primaryNeon,
           brightness: Brightness.dark,
           surface: darkSurface,
-          background: darkBg,
         ),
         appBarTheme: const AppBarTheme(backgroundColor: darkBg, elevation: 0),
       ),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
       home: SelectableRegion(
-        focusNode: FocusNode(),
+        focusNode: _selectableFocusNode,
         selectionControls: MaterialTextSelectionControls(),
         child: HomePage(toggleTheme: toggleTheme, isDarkMode: isDarkMode),
       ),

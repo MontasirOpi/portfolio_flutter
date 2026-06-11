@@ -55,10 +55,10 @@ class _NavBarState extends State<NavBar> {
         Row(
           children: [
             _buildNavLink('Home', 0),
-            _buildNavLink('Projects', 1),
-            _buildNavLink('Skills', 2),
+            _buildNavLink('About', 1),
+            _buildNavLink('Projects', 2),
             _buildNavLink('Experience', 3),
-            _buildNavLink('Interests', 4),
+            _buildNavLink('Skills', 4),
             _buildNavLink('Contact', 5),
             const SizedBox(width: 16),
             OutlinedButton(
@@ -106,10 +106,10 @@ class _NavBarState extends State<NavBar> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _buildMobileNavLink('Home', 0),
-              _buildMobileNavLink('Projects', 1),
-              _buildMobileNavLink('Skills', 2),
+              _buildMobileNavLink('About', 1),
+              _buildMobileNavLink('Projects', 2),
               _buildMobileNavLink('Experience', 3),
-              _buildMobileNavLink('Interests', 4),
+              _buildMobileNavLink('Skills', 4),
               _buildMobileNavLink('Contact', 5),
               const SizedBox(height: 16),
               Padding(
