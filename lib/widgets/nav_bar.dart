@@ -24,7 +24,9 @@ class _NavBarState extends State<NavBar> {
   bool _isMobileMenuOpen = false;
 
   Future<void> _launchCV() async {
-    final uri = Uri.parse('https://drive.google.com/file/d/19RfC_zxo38aq2a3ZstuaWDM79mXsj_sx/view?usp=sharing');
+    final uri = Uri.parse(
+      'https://drive.google.com/file/d/1emV0wbFCU4XH-b5TFi_WA27WWIPjo2-K/view?usp=sharing',
+    );
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
@@ -66,11 +68,17 @@ class _NavBarState extends State<NavBar> {
               style: OutlinedButton.styleFrom(
                 foregroundColor: const Color(0xFF24DB67),
                 side: const BorderSide(color: Color(0xFF24DB67)),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
               child: Text(
                 'CV',
-                style: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold, fontSize: 14),
+                style: GoogleFonts.jetBrainsMono(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
             ),
           ],
@@ -123,7 +131,10 @@ class _NavBarState extends State<NavBar> {
                   ),
                   child: Text(
                     'DOWNLOAD CV',
-                    style: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: GoogleFonts.jetBrainsMono(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),
@@ -160,7 +171,9 @@ class _NavBarState extends State<NavBar> {
             style: GoogleFonts.jetBrainsMono(
               fontSize: 14,
               fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
-              color: isActive ? const Color(0xFF24DB67) : const Color(0xFF9CA3AF),
+              color: isActive
+                  ? const Color(0xFF24DB67)
+                  : const Color(0xFF9CA3AF),
             ),
           ),
         ),
