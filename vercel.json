@@ -2,7 +2,6 @@
   "buildCommand": "echo 'Using prebuilt web assets'",
   "outputDirectory": "build/web",
   "installCommand": "echo 'Prebuilt web assets - skipping install'",
-  "framework": null,
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
