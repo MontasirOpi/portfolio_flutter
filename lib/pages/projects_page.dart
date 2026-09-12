@@ -145,35 +145,43 @@ class _ProjectsPageState extends State<ProjectsPage>
                 ),
               ),
               const SizedBox(height: 48),
-              Center(
-                child: Wrap(
-                  spacing: 24,
-                  runSpacing: 24,
-                  alignment: WrapAlignment.center,
-                  children: filteredProjects.map((project) {
-                    final index = filteredProjects.indexOf(project);
-                    return TweenAnimationBuilder<double>(
-                      duration: Duration(
-                        milliseconds: 400 + (index * 100).clamp(0, 600).toInt(),
-                      ),
-                      tween: Tween<double>(begin: 0, end: 1),
-                      curve: Curves.easeOutCubic,
-                      builder: (context, value, child) {
-                        return Opacity(
-                          opacity: value,
-                          child: Transform.translate(
-                            offset: Offset(0, 30 * (1 - value)),
-                            child: SizedBox(
-                              width: 360,
-                              height: 550,
-                              child: ProjectCard(project: project),
-                            ),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final double cardWidth = constraints.maxWidth < 400
+                      ? constraints.maxWidth.clamp(280.0, 360.0)
+                      : 360.0;
+
+                  return Center(
+                    child: Wrap(
+                      spacing: 24,
+                      runSpacing: 24,
+                      alignment: WrapAlignment.center,
+                      children: filteredProjects.map((project) {
+                        final index = filteredProjects.indexOf(project);
+                        return TweenAnimationBuilder<double>(
+                          duration: Duration(
+                            milliseconds: 400 + (index * 100).clamp(0, 600).toInt(),
                           ),
+                          tween: Tween<double>(begin: 0, end: 1),
+                          curve: Curves.easeOutCubic,
+                          builder: (context, value, child) {
+                            return Opacity(
+                              opacity: value,
+                              child: Transform.translate(
+                                offset: Offset(0, 30 * (1 - value)),
+                                child: SizedBox(
+                                  width: cardWidth,
+                                  height: 570,
+                                  child: ProjectCard(project: project),
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      },
-                    );
-                  }).toList(),
-                ),
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

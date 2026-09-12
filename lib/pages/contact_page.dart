@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,12 +88,12 @@ class _ContactPageState extends State<ContactPage>
     final socialLinks = [
       {
         'name': 'GitHub',
-        'icon': Icons.code_rounded,
+        'iconPath': 'assets/icons/github.svg',
         'url': 'https://github.com/MontasirOpi',
       },
       {
         'name': 'LinkedIn',
-        'icon': Icons.work_rounded,
+        'iconPath': 'assets/icons/linkedin.svg',
         'url': 'https://www.linkedin.com/in/fahim-montasir-opi-161b65256/',
       },
     ];
@@ -284,8 +285,9 @@ class _ContactPageState extends State<ContactPage>
   }
 
   Widget _buildSocialCard(Map<String, dynamic> social) {
+    final iconPath = social['iconPath'] as String?;
     return InkWell(
-      onTap: () => _launchURL(social['url'], 'Could not open ${social['name']}'),
+      onTap: () => _launchURL(social['url'] as String, 'Could not open ${social['name']}'),
       borderRadius: BorderRadius.circular(12),
       child: Container(
         width: 160,
@@ -297,10 +299,21 @@ class _ContactPageState extends State<ContactPage>
         ),
         child: Column(
           children: [
-            Icon(social['icon'], color: const Color(0xFFE0E6EB), size: 32),
+            if (iconPath != null)
+              SvgPicture.asset(
+                iconPath,
+                width: 32,
+                height: 32,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFF24DB67),
+                  BlendMode.srcIn,
+                ),
+              )
+            else
+              Icon(social['icon'] as IconData, color: const Color(0xFF24DB67), size: 32),
             const SizedBox(height: 12),
             Text(
-              social['name'],
+              social['name'] as String,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

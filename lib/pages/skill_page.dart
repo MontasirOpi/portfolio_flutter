@@ -16,22 +16,54 @@ class _SkillsPageState extends State<SkillsPage> with SingleTickerProviderStateM
     {
       'title': 'MOBILE DEVELOPMENT',
       'icon': Icons.phone_android_rounded,
-      'skills': ['Flutter', 'Dart', 'Android Dev', 'Responsive Design', 'GetX State Management'],
+      'skills': [
+        'Flutter',
+        'Dart',
+        'Riverpod',
+        'GetX State Management',
+        'BLoC Pattern',
+        'Android & iOS Dev',
+        'Clean Architecture',
+        'Responsive Design',
+      ],
     },
     {
       'title': 'BACKEND & APIS',
       'icon': Icons.cloud_queue_rounded,
-      'skills': ['REST APIs', 'JSON Serialization', 'Firebase Cloud', 'User Authentication', 'Push Notifications'],
+      'skills': [
+        'Node.js',
+        'TypeScript',
+        'Express.js',
+        'RESTful APIs',
+        'Firebase Cloud',
+        'Supabase Backend',
+        'User Authentication (JWT)',
+        'WebSockets',
+        'Push Notifications',
+      ],
     },
     {
       'title': 'DATABASES & CACHE',
       'icon': Icons.storage_rounded,
-      'skills': ['SQLite Local', 'Hive Database', 'Shared Preferences'],
+      'skills': [
+        'PostgreSQL',
+        'MongoDB',
+        'SQLite Local',
+        'Hive Database',
+        'Shared Preferences',
+      ],
     },
     {
       'title': 'DEVOPS & DEPLOYMENT',
       'icon': Icons.sync_rounded,
-      'skills': ['Git / Version Control', 'GitHub Actions', 'Play Store Console', 'App Store Connect', 'CI/CD Pipelines'],
+      'skills': [
+        'Git / Version Control',
+        'GitHub Actions',
+        'CI/CD Pipelines',
+        'Play Store Console',
+        'App Store Connect',
+        'Vercel Deployment',
+      ],
     },
     {
       'title': 'TRAVEL TECHNOLOGY (OTA)',
@@ -42,30 +74,36 @@ class _SkillsPageState extends State<SkillsPage> with SingleTickerProviderStateM
         'Transfer Modules',
         'Insurance Modules',
         'eSIM API Integration',
-        'B2B & B2C Platforms'
+        'B2B & B2C Platforms',
       ],
     },
     {
-      'title': 'AI-ASSISTED DEVELOPMENT',
+      'title': 'AI AGENTS & MODERN WORKFLOWS',
       'icon': Icons.smart_toy_outlined,
       'skills': [
-        'Cursor AI Orchestration',
+        'AI Agents in Flutter',
+        'LLM Function & Tool Calling',
         'Agentic AI Workflows',
-        'Coding Assistants',
-        'Prompt Engineering',
-        'Local LLM Deployment',
-        'Ollama Server',
-        'Open Source Models',
-        'AI Automated Code Review',
-        'AI Debugging & Diagnostics',
+        'Model Context Protocol (MCP)',
+        'Cursor AI Orchestration',
+        'Local LLM Deployment (Ollama)',
         'Multi-Agent Systems',
-        'MCP Server Integrations'
+        'Prompt Engineering',
+        'AI Diagnostics & Code Review',
       ],
     },
     {
       'title': 'AI TOOLS & PLATFORMS',
       'icon': Icons.psychology_outlined,
-      'skills': ['Claude 3.5 Sonnet', 'GPT-4o / OpenAI', 'Gemini Pro', 'Cursor IDE', 'GitHub Copilot', 'OpenRouter APIs', 'Local Llama models'],
+      'skills': [
+        'Claude 3.5 Sonnet',
+        'GPT-4o / OpenAI',
+        'Gemini Pro',
+        'Cursor IDE',
+        'GitHub Copilot',
+        'OpenRouter APIs',
+        'Local Llama models',
+      ],
     },
   ];
 
@@ -148,7 +186,8 @@ class _SkillsPageState extends State<SkillsPage> with SingleTickerProviderStateM
       runSpacing: 24,
       children: _skillCategories.map((category) {
         // Expand AI-assisted card to span wider space for visual hierarchy
-        final isAI = category['title'].toString().contains('AI-ASSISTED');
+        final isAI = category['title'].toString().contains('AI AGENTS') ||
+            category['title'].toString().contains('AI-ASSISTED');
         final double cardWidth;
         if (isWide) {
           cardWidth = isAI ? 744.0 : 360.0;

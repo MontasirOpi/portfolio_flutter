@@ -132,22 +132,28 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
         ),
       ),
       const SizedBox(height: 16),
-      Text(
-        'Fahim Montasir Opi',
-        textAlign: textAlign,
-        style: GoogleFonts.spaceGrotesk(
-          fontSize: isLtr ? 64 : 44,
-          fontWeight: FontWeight.w800,
-          color: Colors.white,
-          letterSpacing: -1.5,
-          height: 1.1,
-          shadows: [
-            Shadow(
-              color: const Color(0xFF24DB67).withValues(alpha: 0.3),
-              blurRadius: 15,
+      Builder(
+        builder: (context) {
+          final width = MediaQuery.of(context).size.width;
+          final double nameSize = isLtr ? 64 : (width < 420 ? 36 : 44);
+          return Text(
+            'Fahim Montasir Opi',
+            textAlign: textAlign,
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: nameSize,
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+              letterSpacing: -1.2,
+              height: 1.15,
+              shadows: [
+                Shadow(
+                  color: const Color(0xFF24DB67).withValues(alpha: 0.3),
+                  blurRadius: 15,
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
       const SizedBox(height: 16),
       Text(
@@ -164,7 +170,7 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
       ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 600),
         child: Text(
-          'Specializing in premium Flutter mobile and web development, High-Performance Online Travel Agency (OTA) booking engines, and automated AI-assisted workflows.',
+          'Specializing in premium Flutter mobile apps (Riverpod/GetX), scalable Node.js & TypeScript backends, High-Performance OTA systems, and autonomous AI agents in Flutter.',
           textAlign: textAlign,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 17,
@@ -185,7 +191,10 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF24DB67),
               foregroundColor: const Color(0xFF0C0E12),
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+              padding: EdgeInsets.symmetric(
+                horizontal: isLtr ? 28 : 20,
+                vertical: isLtr ? 20 : 16,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -196,7 +205,7 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
               children: [
                 Text(
                   'VIEW PROJECTS',
-                  style: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold, fontSize: 13.5),
                 ),
                 const SizedBox(width: 8),
                 const Icon(Icons.arrow_forward_rounded, size: 16),
@@ -208,7 +217,10 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
             style: OutlinedButton.styleFrom(
               foregroundColor: const Color(0xFF24DB67),
               side: const BorderSide(color: Color(0xFF24DB67), width: 1.5),
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+              padding: EdgeInsets.symmetric(
+                horizontal: isLtr ? 28 : 20,
+                vertical: isLtr ? 20 : 16,
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -218,7 +230,7 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
               children: [
                 Text(
                   'DOWNLOAD CV',
-                  style: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: GoogleFonts.jetBrainsMono(fontWeight: FontWeight.bold, fontSize: 13.5),
                 ),
                 const SizedBox(width: 8),
                 const Icon(Icons.download_rounded, size: 16),

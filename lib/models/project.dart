@@ -66,6 +66,26 @@ class Project {
       technologies: ["Flutter", "Dart", "GetX", "REST API", "Push Notification"],
     ),
 
+    // ✅ Production Mobile Apps
+    Project(
+      title: "Mehndi Book (Offline & Online)",
+      description:
+          "A high-performance Android design app providing curated collections of mehndi and henna art, featuring offline image caching, categorized galleries, and smooth interactive zooming.",
+      category: "Mobile",
+      githubLink: "https://github.com/MontasirOpi",
+      playStoreLink: "https://play.google.com/store/apps/details?id=opi.codes",
+      networkImage:
+          "https://play-lh.googleusercontent.com/AJQPrkAj6wpzwAfOVcAXLQ8GgSd6FTCAaNYicDLzLqKcaxoQVgfpbYnwFwdOmfRvjKk6n0IuIrv9kVUOiSz20g",
+      keyAchievements: [
+        "Engineered offline-first local image caching with preloading to enable zero-lag offline browsing",
+        "Built responsive grid gallery with interactive pinch-to-zoom and full-screen preview modes",
+        "Optimized bitmap memory allocations to ensure continuous 60 FPS scrolling on all devices"
+      ],
+      performanceMetric: "Offline-First Caching",
+      userMetric: "Live on Play Store",
+      technologies: ["Flutter", "Dart", "Offline Cache", "Interactive Viewer", "Responsive UI"],
+    ),
+
     // ✅ Packages
     Project(
       title: "date_with_range_picker",

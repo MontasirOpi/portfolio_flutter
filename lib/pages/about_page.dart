@@ -79,7 +79,10 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SmartphoneMockup(),
+                          const FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: SmartphoneMockup(),
+                          ),
                           const SizedBox(height: 60),
                           _buildDetailsSection(false),
                         ],
@@ -96,16 +99,17 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
     final skills = [
       'Flutter',
       'Dart',
+      'Riverpod',
       'GetX',
+      'Node.js',
+      'TypeScript',
       'REST API',
       'Firebase',
-      'Android',
+      'AI Agents in Flutter',
+      'Agentic AI',
       'OTA Systems',
       'eSIM',
-      'Travel Technology',
-      'AI Development',
       'Cursor AI',
-      'Agentic AI',
       'GitHub',
       'Play Store Deployment',
     ];
@@ -177,7 +181,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
         ),
         const SizedBox(height: 16),
         Text(
-          'I develop high-performance Android and cross-platform applications using Flutter, GetX, REST APIs, and modern software architecture principles. I have experience deploying and maintaining production applications on the Google Play Store while continuously improving performance, user experience, and maintainability.',
+          'I develop high-performance Android and cross-platform applications using Flutter, Riverpod, GetX, and REST APIs, paired with Node.js & TypeScript backend services and modern software architecture principles. I have experience deploying and maintaining production applications on the Google Play Store while continuously improving performance, user experience, and maintainability.',
           textAlign: textAlign,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 15.5,
@@ -187,7 +191,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
         ),
         const SizedBox(height: 16),
         Text(
-          'I also leverage modern AI tools and agentic workflows to accelerate development, debugging, code reviews, documentation, and automation, enabling faster delivery of high-quality software solutions.',
+          'I also leverage modern AI agents in Flutter and agentic workflows to build intelligent assistants, function calling, tool orchestration, and automated pipelines, enabling faster delivery of high-quality software solutions.',
           textAlign: textAlign,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 15.5,
