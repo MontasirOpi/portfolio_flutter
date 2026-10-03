@@ -25,7 +25,7 @@ class _NavBarState extends State<NavBar> {
 
   Future<void> _launchCV() async {
     final uri = Uri.parse(
-      'https://drive.google.com/file/d/1emV0wbFCU4XH-b5TFi_WA27WWIPjo2-K/view?usp=sharing',
+      'https://drive.google.com/file/d/1d_bhTocBNOwNrA5Zf5Hw2fd9eu6o5Rt7/view?usp=sharing',
     );
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);

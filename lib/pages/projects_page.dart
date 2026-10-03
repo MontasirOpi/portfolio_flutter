@@ -86,7 +86,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Explore my portfolio of innovative applications and packages.',
+                        'Explore my portfolio of production mobile applications, packages, and web platforms.',
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 16,
                           color: const Color(0xFF9CA3AF),
@@ -98,6 +98,9 @@ class _ProjectsPageState extends State<ProjectsPage>
                         runSpacing: 12,
                         children: _categories.map((category) {
                           final isSelected = _selectedFilter == category;
+                          final count = category == 'All'
+                              ? _allProjects.length
+                              : _allProjects.where((p) => p.category == category).length;
                           return MouseRegion(
                             cursor: SystemMouseCursors.click,
                             child: GestureDetector(
@@ -114,8 +117,8 @@ class _ProjectsPageState extends State<ProjectsPage>
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? const Color(0xFF24DB67).withValues(alpha: 0.1)
-                                      : Colors.transparent,
+                                      ? const Color(0xFF24DB67).withValues(alpha: 0.12)
+                                      : const Color(0xFF14161A),
                                   border: Border.all(
                                     color: isSelected
                                         ? const Color(0xFF24DB67)
@@ -123,17 +126,45 @@ class _ProjectsPageState extends State<ProjectsPage>
                                   ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Text(
-                                  category,
-                                  style: GoogleFonts.jetBrainsMono(
-                                    fontSize: 14,
-                                    color: isSelected
-                                        ? const Color(0xFF24DB67)
-                                        : const Color(0xFF9CA3AF),
-                                    fontWeight: isSelected
-                                        ? FontWeight.w600
-                                        : FontWeight.w400,
-                                  ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      category,
+                                      style: GoogleFonts.jetBrainsMono(
+                                        fontSize: 13,
+                                        color: isSelected
+                                            ? const Color(0xFF24DB67)
+                                            : const Color(0xFF9CA3AF),
+                                        fontWeight: isSelected
+                                            ? FontWeight.w600
+                                            : FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? const Color(0xFF24DB67).withValues(alpha: 0.22)
+                                            : const Color(0xFF1F2937),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '$count',
+                                        style: GoogleFonts.jetBrainsMono(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                          color: isSelected
+                                              ? const Color(0xFF24DB67)
+                                              : const Color(0xFF6B7280),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -160,7 +191,7 @@ class _ProjectsPageState extends State<ProjectsPage>
                         final index = filteredProjects.indexOf(project);
                         return TweenAnimationBuilder<double>(
                           duration: Duration(
-                            milliseconds: 400 + (index * 100).clamp(0, 600).toInt(),
+                            milliseconds: 350 + (index * 60).clamp(0, 500).toInt(),
                           ),
                           tween: Tween<double>(begin: 0, end: 1),
                           curve: Curves.easeOutCubic,
@@ -168,10 +199,10 @@ class _ProjectsPageState extends State<ProjectsPage>
                             return Opacity(
                               opacity: value,
                               child: Transform.translate(
-                                offset: Offset(0, 30 * (1 - value)),
+                                offset: Offset(0, 20 * (1 - value)),
                                 child: SizedBox(
                                   width: cardWidth,
-                                  height: 570,
+                                  height: 550,
                                   child: ProjectCard(project: project),
                                 ),
                               ),

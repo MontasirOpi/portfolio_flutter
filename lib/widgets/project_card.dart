@@ -19,7 +19,7 @@ class _ProjectCardState extends State<ProjectCard> {
   void _showDetailsDialog(BuildContext context) {
     showDialog(
       context: context,
-      barrierColor: Colors.black.withValues(alpha: 0.75),
+      barrierColor: Colors.black.withValues(alpha: 0.8),
       builder: (dialogContext) {
         return _ProjectDetailsDialog(project: widget.project);
       },
@@ -57,9 +57,9 @@ class _ProjectCardState extends State<ProjectCard> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFF0C0E12).withValues(alpha: 0.85),
+        color: const Color(0xFF0C0E12).withValues(alpha: 0.88),
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: badgeColor.withValues(alpha: 0.4)),
+        border: Border.all(color: badgeColor.withValues(alpha: 0.45)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -72,8 +72,8 @@ class _ProjectCardState extends State<ProjectCard> {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: badgeColor.withValues(alpha: 0.6),
-                  blurRadius: 4,
+                  color: badgeColor.withValues(alpha: 0.7),
+                  blurRadius: 5,
                   spreadRadius: 1,
                 ),
               ],
@@ -86,7 +86,7 @@ class _ProjectCardState extends State<ProjectCard> {
               fontSize: 10,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-              letterSpacing: 0.5,
+              letterSpacing: 0.6,
             ),
           ),
         ],
@@ -96,7 +96,8 @@ class _ProjectCardState extends State<ProjectCard> {
 
   @override
   Widget build(BuildContext context) {
-    final isFeatured = widget.project.title.contains("NoSafer") ||
+    final isFeatured = widget.project.title.contains("InnoTrip") ||
+        widget.project.title.contains("NoSafer") ||
         widget.project.title.contains("Travojet") ||
         widget.project.title.contains("Mehndi") ||
         widget.project.title.contains("date_with");
@@ -108,7 +109,7 @@ class _ProjectCardState extends State<ProjectCard> {
       child: GestureDetector(
         onTap: () => _showDetailsDialog(context),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
+          duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
           transform: Matrix4.translationValues(0.0, _isHovered ? -6.0 : 0.0, 0.0),
           decoration: BoxDecoration(
@@ -116,18 +117,18 @@ class _ProjectCardState extends State<ProjectCard> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: _isHovered
-                  ? const Color(0xFF24DB67).withValues(alpha: 0.6)
+                  ? const Color(0xFF24DB67).withValues(alpha: 0.65)
                   : (isFeatured
-                      ? const Color(0xFF24DB67).withValues(alpha: 0.25)
+                      ? const Color(0xFF24DB67).withValues(alpha: 0.28)
                       : const Color(0xFF1F2937)),
               width: 1.2,
             ),
             boxShadow: [
               BoxShadow(
                 color: _isHovered
-                    ? const Color(0xFF24DB67).withValues(alpha: 0.15)
-                    : Colors.black.withValues(alpha: 0.3),
-                blurRadius: _isHovered ? 25 : 12,
+                    ? const Color(0xFF24DB67).withValues(alpha: 0.16)
+                    : Colors.black.withValues(alpha: 0.35),
+                blurRadius: _isHovered ? 24 : 12,
                 offset: const Offset(0, 4),
               ),
             ],
@@ -139,19 +140,19 @@ class _ProjectCardState extends State<ProjectCard> {
               children: [
                 // Image / Backdrop header
                 SizedBox(
-                  height: 165,
+                  height: 160,
                   child: Stack(
                     children: [
                       Positioned.fill(
                         child: _ProjectCardImage(project: widget.project),
                       ),
-                      // Shadow overlay for image readability
+                      // Subtle gradient overlay for contrast
                       Positioned.fill(
                         child: Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                Colors.black.withValues(alpha: 0.65),
+                                Colors.black.withValues(alpha: 0.7),
                                 Colors.transparent,
                               ],
                               begin: Alignment.bottomCenter,
@@ -172,10 +173,10 @@ class _ProjectCardState extends State<ProjectCard> {
                           top: 14,
                           right: 14,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
                             decoration: BoxDecoration(
                               color: const Color(0xFF24DB67),
-                              borderRadius: BorderRadius.circular(4),
+                              borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
                                   color: const Color(0xFF24DB67).withValues(alpha: 0.4),
@@ -226,101 +227,105 @@ class _ProjectCardImage extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,
-        cacheWidth: 400,
-        cacheHeight: 225,
+        cacheWidth: 600,
+        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
       );
     } else if (project.image != null) {
       final webpPath = project.image!
           .replaceAll('.png', '.webp')
           .replaceAll('.jpg', '.webp')
           .replaceAll('.jpeg', '.webp');
-      
+
       return Image.asset(
         webpPath,
         width: double.infinity,
         height: double.infinity,
         fit: BoxFit.cover,
-        cacheWidth: 400,
-        cacheHeight: 225,
+        cacheWidth: 600,
+        errorBuilder: (context, error, stackTrace) => _buildPlaceholder(),
       );
     } else {
-      // Tech-specific stylized placeholder
-      final isTravel = project.title.toLowerCase().contains('safer') ||
-          project.title.toLowerCase().contains('travojet');
-      final isAI = project.category.toLowerCase().contains('ai') ||
-          project.title.toLowerCase().contains('agent');
-      final isFullStack = project.category.toLowerCase().contains('full') ||
-          project.title.toLowerCase().contains('task');
-      final isPackage = project.category.toLowerCase().contains('package');
-
-      final IconData displayIcon;
-      final Color iconAccent;
-      final List<Color> gradientColors;
-
-      if (isAI) {
-        displayIcon = Icons.auto_awesome_rounded;
-        iconAccent = const Color(0xFF00E5FF);
-        gradientColors = const [Color(0xFF092026), Color(0xFF0C0E12)];
-      } else if (isFullStack) {
-        displayIcon = Icons.layers_rounded;
-        iconAccent = const Color(0xFFB388FF);
-        gradientColors = const [Color(0xFF1D142E), Color(0xFF0C0E12)];
-      } else if (isTravel) {
-        displayIcon = Icons.flight_takeoff_rounded;
-        iconAccent = const Color(0xFF24DB67);
-        gradientColors = const [Color(0xFF0E2419), Color(0xFF0C0E12)];
-      } else if (isPackage) {
-        displayIcon = Icons.extension_rounded;
-        iconAccent = const Color(0xFFFFC107);
-        gradientColors = const [Color(0xFF262010), Color(0xFF0C0E12)];
-      } else {
-        displayIcon = Icons.phone_android_rounded;
-        iconAccent = const Color(0xFF24DB67);
-        gradientColors = const [Color(0xFF1A1D24), Color(0xFF0C0E12)];
-      }
-
-      final words = project.title.split(' ');
-      final initials = words.length > 1
-          ? '${words[0][0]}${words[1][0]}'.toUpperCase()
-          : project.title.substring(0, (project.title.length >= 2 ? 2 : 1)).toUpperCase();
-
-      return Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradientColors,
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              right: -10,
-              bottom: -20,
-              child: Text(
-                initials,
-                style: GoogleFonts.spaceGrotesk(
-                  fontSize: 90,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white.withValues(alpha: 0.03),
-                  letterSpacing: -4,
-                ),
-              ),
-            ),
-            Center(
-              child: Icon(
-                displayIcon,
-                size: 52,
-                color: iconAccent.withValues(alpha: 0.35),
-              ),
-            ),
-          ],
-        ),
-      );
+      return _buildPlaceholder();
     }
+  }
+
+  Widget _buildPlaceholder() {
+    final isTravel = project.title.toLowerCase().contains('safer') ||
+        project.title.toLowerCase().contains('travojet') ||
+        project.title.toLowerCase().contains('innotrip');
+    final isAI = project.category.toLowerCase().contains('ai') ||
+        project.title.toLowerCase().contains('agent');
+    final isFullStack = project.category.toLowerCase().contains('full') ||
+        project.title.toLowerCase().contains('task');
+    final isPackage = project.category.toLowerCase().contains('package');
+
+    final IconData displayIcon;
+    final Color iconAccent;
+    final List<Color> gradientColors;
+
+    if (isAI) {
+      displayIcon = Icons.auto_awesome_rounded;
+      iconAccent = const Color(0xFF00E5FF);
+      gradientColors = const [Color(0xFF092026), Color(0xFF0C0E12)];
+    } else if (isFullStack) {
+      displayIcon = Icons.layers_rounded;
+      iconAccent = const Color(0xFFB388FF);
+      gradientColors = const [Color(0xFF1D142E), Color(0xFF0C0E12)];
+    } else if (isTravel) {
+      displayIcon = Icons.flight_takeoff_rounded;
+      iconAccent = const Color(0xFF24DB67);
+      gradientColors = const [Color(0xFF0E2419), Color(0xFF0C0E12)];
+    } else if (isPackage) {
+      displayIcon = Icons.extension_rounded;
+      iconAccent = const Color(0xFFFFC107);
+      gradientColors = const [Color(0xFF262010), Color(0xFF0C0E12)];
+    } else {
+      displayIcon = Icons.phone_android_rounded;
+      iconAccent = const Color(0xFF24DB67);
+      gradientColors = const [Color(0xFF1A1D24), Color(0xFF0C0E12)];
+    }
+
+    final words = project.title.split(' ');
+    final initials = words.length > 1
+        ? '${words[0][0]}${words[1][0]}'.toUpperCase()
+        : project.title.substring(0, (project.title.length >= 2 ? 2 : 1)).toUpperCase();
+
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradientColors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            right: -10,
+            bottom: -20,
+            child: Text(
+              initials,
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 90,
+                fontWeight: FontWeight.w900,
+                color: Colors.white.withValues(alpha: 0.035),
+                letterSpacing: -4,
+              ),
+            ),
+          ),
+          Center(
+            child: Icon(
+              displayIcon,
+              size: 52,
+              color: iconAccent.withValues(alpha: 0.4),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -355,80 +360,54 @@ class _ProjectCardDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title
-          Text(
-            project.title,
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: -0.5,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 6),
-
-          // Metrics Chips (Performance & Impact)
-          if (project.performanceMetric != null || project.userMetric != null) ...[
-            Wrap(
-              spacing: 6,
-              runSpacing: 4,
-              children: [
-                if (project.performanceMetric != null)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF24DB67).withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(
-                        color: const Color(0xFF24DB67).withValues(alpha: 0.3),
+          // Title & Performance Row
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Text(
+                  project.title,
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: -0.5,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              if (project.performanceMetric != null) ...[
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF24DB67).withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      color: const Color(0xFF24DB67).withValues(alpha: 0.35),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.bolt_rounded, size: 12, color: Color(0xFF24DB67)),
+                      const SizedBox(width: 3),
+                      Text(
+                        project.performanceMetric!,
+                        style: GoogleFonts.jetBrainsMono(
+                          fontSize: 9.5,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF24DB67),
+                        ),
                       ),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.bolt_rounded, size: 12, color: Color(0xFF24DB67)),
-                        const SizedBox(width: 3),
-                        Text(
-                          project.performanceMetric!,
-                          style: GoogleFonts.jetBrainsMono(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF24DB67),
-                          ),
-                        ),
-                      ],
-                    ),
+                    ],
                   ),
-                if (project.userMetric != null)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1F2937).withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: const Color(0xFF374151)),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.verified_rounded, size: 11, color: Color(0xFF60A5FA)),
-                        const SizedBox(width: 3),
-                        Text(
-                          project.userMetric!,
-                          style: GoogleFonts.jetBrainsMono(
-                            fontSize: 9.5,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFFD1D5DB),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                ),
               ],
-            ),
-            const SizedBox(height: 8),
-          ],
+            ],
+          ),
+          const SizedBox(height: 8),
 
           // Description
           Text(
@@ -436,12 +415,12 @@ class _ProjectCardDetails extends StatelessWidget {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 12.5,
               color: const Color(0xFF9CA3AF),
-              height: 1.35,
+              height: 1.4,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
 
           // Tech Badges
           Wrap(
@@ -452,14 +431,14 @@ class _ProjectCardDetails extends StatelessWidget {
                 return Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1F2937).withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: const Color(0xFF1F2937)),
+                    color: const Color(0xFF16191F),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: const Color(0xFF242A35)),
                   ),
                   child: Text(
                     tech,
                     style: GoogleFonts.jetBrainsMono(
-                      fontSize: 9.5,
+                      fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF24DB67),
                     ),
@@ -468,16 +447,16 @@ class _ProjectCardDetails extends StatelessWidget {
               }),
               if (project.technologies.length > 3)
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1F2937).withValues(alpha: 0.8),
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(color: const Color(0xFF374151)),
+                    color: const Color(0xFF16191F),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(color: const Color(0xFF242A35)),
                   ),
                   child: Text(
                     '+${project.technologies.length - 3}',
                     style: GoogleFonts.jetBrainsMono(
-                      fontSize: 9.5,
+                      fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF9CA3AF),
                     ),
@@ -485,174 +464,230 @@ class _ProjectCardDetails extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
 
           // Divider
           Container(height: 1, color: const Color(0xFF1F2937)),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
 
-          // Achievements Checklist Header
+          // Achievements Header
           Text(
             "KEY HIGHLIGHTS",
             style: GoogleFonts.jetBrainsMono(
               fontSize: 9.5,
               fontWeight: FontWeight.bold,
-              color: const Color(0xFF9CA3AF),
+              color: const Color(0xFF6B7280),
               letterSpacing: 1.0,
-            ),
-          ),
-          const SizedBox(height: 6),
-
-          // Key Highlights (top 2 to guarantee zero overflow)
-          Expanded(
-            child: Column(
-              children: project.keyAchievements.take(2).map((achievement) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(top: 3.0),
-                        child: Icon(
-                          Icons.check_circle_outline_rounded,
-                          size: 12,
-                          color: Color(0xFF24DB67),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          achievement,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.spaceGrotesk(
-                            fontSize: 12,
-                            color: const Color(0xFFE0E6EB),
-                            height: 1.25,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }).toList(),
             ),
           ),
           const SizedBox(height: 8),
 
-          // Buttons CTA Wrap
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: [
-              // Details Button
-              OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                  side: const BorderSide(color: Color(0xFF24DB67), width: 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
+          // Key Highlights (2 items with consistent spacing)
+          ...project.keyAchievements.take(2).map((achievement) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 2.5),
+                    child: Icon(
+                      Icons.check_circle_outline_rounded,
+                      size: 13,
+                      color: Color(0xFF24DB67),
+                    ),
                   ),
-                  foregroundColor: const Color(0xFF24DB67),
-                ),
-                onPressed: onOpenDetails,
-                icon: const Icon(Icons.visibility_outlined, size: 13),
-                label: Text(
-                  'Details',
-                  style: GoogleFonts.jetBrainsMono(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 11,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      achievement,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.spaceGrotesk(
+                        fontSize: 12,
+                        color: const Color(0xFFD1D5DB),
+                        height: 1.3,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-              _buildActionButton(
-                context: context,
-                iconPath: 'assets/icons/github.svg',
-                label: 'Source',
-                url: project.githubLink,
-              ),
-              if (project.pubDevLink != null)
-                _buildActionButton(
+            );
+          }),
+
+          const Spacer(),
+
+          // Buttons Action Bar
+          Container(
+            padding: const EdgeInsets.only(top: 8),
+            decoration: const BoxDecoration(
+              border: Border(top: BorderSide(color: Color(0xFF1A1F26), width: 1)),
+            ),
+            child: Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                // Primary App Store link if available
+                if (project.appStoreLink != null)
+                  _buildPrimaryActionButton(
+                    context: context,
+                    iconData: Icons.apple_rounded,
+                    label: 'App Store',
+                    url: project.appStoreLink!,
+                  ),
+                // Primary Play Store link if available
+                if (project.playStoreLink != null)
+                  _buildPrimaryActionButton(
+                    context: context,
+                    iconData: Icons.play_arrow_rounded,
+                    label: 'Google Play',
+                    url: project.playStoreLink!,
+                  ),
+                // Pub.dev link if package
+                if (project.pubDevLink != null)
+                  _buildPrimaryActionButton(
+                    context: context,
+                    iconData: Icons.extension_rounded,
+                    label: 'Pub.dev',
+                    url: project.pubDevLink!,
+                  ),
+                // Live demo if web
+                if (project.liveDemoLink != null)
+                  _buildPrimaryActionButton(
+                    context: context,
+                    iconData: Icons.open_in_new_rounded,
+                    label: 'Live Demo',
+                    url: project.liveDemoLink!,
+                  ),
+                // GitHub Source Code
+                _buildSecondaryActionButton(
                   context: context,
-                  iconPath: null,
-                  iconData: Icons.extension_rounded,
-                  label: 'Pub.dev',
-                  url: project.pubDevLink!,
+                  iconPath: 'assets/icons/github.svg',
+                  label: 'Source',
+                  url: project.githubLink,
                 ),
-              if (project.liveDemoLink != null)
-                _buildActionButton(
-                  context: context,
-                  iconPath: null,
-                  iconData: Icons.open_in_new_rounded,
-                  label: 'Demo',
-                  url: project.liveDemoLink!,
-                ),
-              if (project.playStoreLink != null)
-                _buildActionButton(
-                  context: context,
-                  iconPath: null,
-                  iconData: Icons.play_arrow_rounded,
-                  label: 'Play Store',
-                  url: project.playStoreLink!,
-                ),
-              if (project.appStoreLink != null)
-                _buildActionButton(
-                  context: context,
-                  iconPath: null,
-                  iconData: Icons.apple_rounded,
-                  label: 'App Store',
-                  url: project.appStoreLink!,
-                ),
-            ],
+                // Details Modal Trigger
+                _buildDetailsButton(onTap: onOpenDetails),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildActionButton({
+  Widget _buildPrimaryActionButton({
     required BuildContext context,
-    required String? iconPath,
-    IconData? iconData,
+    required IconData iconData,
     required String label,
     required String url,
   }) {
-    final child = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (iconPath != null)
-          SvgPicture.asset(
-            iconPath,
-            height: 13,
-            width: 13,
-            colorFilter: const ColorFilter.mode(Color(0xFFE0E6EB), BlendMode.srcIn),
-          )
-        else if (iconData != null)
-          Icon(iconData, size: 13, color: const Color(0xFFE0E6EB)),
-        const SizedBox(width: 5),
-        Text(
-          label,
-          style: GoogleFonts.jetBrainsMono(
-            fontWeight: FontWeight.bold,
-            fontSize: 10.5,
-            color: const Color(0xFFE0E6EB),
+    return InkWell(
+      onTap: () => _launchUrl(context, url),
+      borderRadius: BorderRadius.circular(6),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+        decoration: BoxDecoration(
+          color: const Color(0xFF24DB67).withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: const Color(0xFF24DB67).withValues(alpha: 0.4),
+            width: 1,
           ),
         ),
-      ],
-    );
-
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        side: const BorderSide(color: Color(0xFF1F2937), width: 1),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(6),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(iconData, size: 13, color: const Color(0xFF24DB67)),
+            const SizedBox(width: 5),
+            Text(
+              label,
+              style: GoogleFonts.jetBrainsMono(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF24DB67),
+              ),
+            ),
+          ],
         ),
-        foregroundColor: const Color(0xFF24DB67),
       ),
-      onPressed: () => _launchUrl(context, url),
-      child: child,
+    );
+  }
+
+  Widget _buildSecondaryActionButton({
+    required BuildContext context,
+    required String iconPath,
+    required String label,
+    required String url,
+  }) {
+    return InkWell(
+      onTap: () => _launchUrl(context, url),
+      borderRadius: BorderRadius.circular(6),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+        decoration: BoxDecoration(
+          color: const Color(0xFF16191F),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: const Color(0xFF262C36),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SvgPicture.asset(
+              iconPath,
+              height: 12,
+              width: 12,
+              colorFilter: const ColorFilter.mode(Color(0xFFE0E6EB), BlendMode.srcIn),
+            ),
+            const SizedBox(width: 5),
+            Text(
+              label,
+              style: GoogleFonts.jetBrainsMono(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFFE0E6EB),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailsButton({required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(6),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+        decoration: BoxDecoration(
+          color: const Color(0xFF16191F),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(
+            color: const Color(0xFF262C36),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.visibility_outlined, size: 12, color: Color(0xFF9CA3AF)),
+            const SizedBox(width: 4),
+            Text(
+              'Details',
+              style: GoogleFonts.jetBrainsMono(
+                fontSize: 10.5,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF9CA3AF),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -776,63 +811,32 @@ class _ProjectDetailsDialog extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
 
-                      // Key Metrics Banner (if present)
-                      if (project.performanceMetric != null || project.userMetric != null) ...[
-                        Wrap(
-                          spacing: 12,
-                          runSpacing: 10,
-                          children: [
-                            if (project.performanceMetric != null)
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF24DB67).withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: const Color(0xFF24DB67).withValues(alpha: 0.35),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.bolt_rounded, size: 16, color: Color(0xFF24DB67)),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      "Performance: ${project.performanceMetric!}",
-                                      style: GoogleFonts.jetBrainsMono(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color(0xFF24DB67),
-                                      ),
-                                    ),
-                                  ],
+                      // Key Performance Banner (if present)
+                      if (project.performanceMetric != null) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF24DB67).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: const Color(0xFF24DB67).withValues(alpha: 0.35),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.bolt_rounded, size: 16, color: Color(0xFF24DB67)),
+                              const SizedBox(width: 6),
+                              Text(
+                                "Performance: ${project.performanceMetric!}",
+                                style: GoogleFonts.jetBrainsMono(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xFF24DB67),
                                 ),
                               ),
-                            if (project.userMetric != null)
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF1F2937).withValues(alpha: 0.8),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: const Color(0xFF374151)),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.verified_rounded, size: 16, color: Color(0xFF60A5FA)),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      "Impact: ${project.userMetric!}",
-                                      style: GoogleFonts.jetBrainsMono(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color(0xFFE5E7EB),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 20),
                       ],

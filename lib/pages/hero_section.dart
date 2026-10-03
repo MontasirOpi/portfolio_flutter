@@ -44,7 +44,7 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
   }
 
   Future<void> _launchCV() async {
-    final uri = Uri.parse('https://drive.google.com/file/d/19RfC_zxo38aq2a3ZstuaWDM79mXsj_sx/view?usp=sharing');
+    final uri = Uri.parse('https://drive.google.com/file/d/1d_bhTocBNOwNrA5Zf5Hw2fd9eu6o5Rt7/view?usp=sharing');
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     }
@@ -245,9 +245,9 @@ class _HeroSectionState extends State<HeroSection> with SingleTickerProviderStat
           ),
           _SocialIconButton(
             iconPath: 'assets/icons/linkedin.svg',
-            url: 'https://www.linkedin.com/in/fahim-montasir-opi-161b65256/',
+            url: 'https://www.linkedin.com/in/montasir-opi',
             tooltip: 'LinkedIn Profile',
-            onTap: () => _launchUrl('https://www.linkedin.com/in/fahim-montasir-opi-161b65256/'),
+            onTap: () => _launchUrl('https://www.linkedin.com/in/montasir-opi'),
           ),
         ],
       ),

@@ -6,12 +6,11 @@ class Project {
   final String category;
   final String? networkImage;
   final String? liveDemoLink;
-  final String? pubDevLink; // New field for Pub.dev packages
-  final String? playStoreLink; // New field for Play Store apps
-  final String? appStoreLink; // New field for iOS apps
+  final String? pubDevLink; // Field for Pub.dev packages
+  final String? playStoreLink; // Field for Play Store apps
+  final String? appStoreLink; // Field for iOS apps
   final List<String> keyAchievements;
   final String? performanceMetric;
-  final String? userMetric;
   final List<String> technologies;
 
   const Project({
@@ -27,15 +26,35 @@ class Project {
     this.appStoreLink,
     required this.keyAchievements,
     this.performanceMetric,
-    this.userMetric,
     required this.technologies,
   });
 
   static const List<Project> sampleProjects = [
     // ✅ Production Mobile Apps
     Project(
+      title: "InnoTrip B2C",
+      description:
+          "An all-in-one B2C travel platform empowering travelers to discover, plan, and book flights, hotels, and custom travel packages with instant real-time checkout.",
+      category: "Mobile",
+      githubLink: "https://github.com/MontasirOpi",
+      playStoreLink:
+          "https://play.google.com/store/apps/details?id=com.innotrip.app&hl=en",
+      appStoreLink:
+          "https://apps.apple.com/us/app/innotrip-b2c/id6793119243",
+      networkImage:
+          "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/ba/cc/a6/bacca6e5-719b-5f05-4128-7cb4ca5610c5/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/1200x630wa.png",
+      keyAchievements: [
+        "Engineered real-time flight search, hotel reservations, and dynamic pricing filters",
+        "Integrated secure multi-currency payment gateways and automated booking confirmations",
+        "Optimized network caching and responsive rendering for high-performance cross-platform use",
+      ],
+      performanceMetric: "Real-time Booking",
+      technologies: ["Flutter", "Dart", "REST API", "Payment Gateway", "OTA Systems"],
+    ),
+    Project(
       title: "NoSafer Travel Agency",
-      description: "A premium B2C travel booking platform enabling travelers to discover, compare, and book flights, hotels, and holiday trips in one high-performance, seamless mobile app.",
+      description:
+          "A premium B2C travel booking platform enabling travelers to discover, compare, and book flights, hotels, and holiday trips in one high-performance, seamless mobile app.",
       category: "Mobile",
       githubLink: "https://github.com/MontasirOpi",
       playStoreLink: "https://play.google.com/store/apps/details?id=com.nosafer.b2c",
@@ -43,15 +62,15 @@ class Project {
       keyAchievements: [
         "Architected end-to-end flight booking and hotel search modules using modular structures",
         "Integrated secure travel insurance purchase steps and direct eSIM setup modules",
-        "Optimized image loading, caching, and state rebuild loops to guarantee 60 FPS transitions"
+        "Optimized image loading, caching, and state rebuild loops to guarantee 60 FPS transitions",
       ],
       performanceMetric: "60 FPS Scrolling",
-      userMetric: "15k+ Deployed Users",
       technologies: ["Flutter", "Dart", "GetX", "REST API", "OTA Systems"],
     ),
     Project(
       title: "Travojet Mobile App",
-      description: "An all-in-one travel agency application offering visa support, holiday package planning, flight bookings, and hotel reservations with professional guidance and custom booking workflows.",
+      description:
+          "An all-in-one travel agency application offering visa support, holiday package planning, flight bookings, and hotel reservations with professional guidance and custom booking workflows.",
       category: "Mobile",
       githubLink: "https://github.com/MontasirOpi",
       playStoreLink: "https://play.google.com/store/apps/details?id=com.travojet.app",
@@ -59,14 +78,11 @@ class Project {
       keyAchievements: [
         "Implemented flight seat selections and booking flow state using GetX",
         "Built document scanner uploads and real-time status trackers for tourist visa applications",
-        "Connected push notifications and campaign banners to increase active engagement by 20%"
+        "Connected push notifications and campaign banners to increase active engagement by 20%",
       ],
       performanceMetric: "35% Faster Checkout",
-      userMetric: "10k+ Downloads",
       technologies: ["Flutter", "Dart", "GetX", "REST API", "Push Notification"],
     ),
-
-    // ✅ Production Mobile Apps
     Project(
       title: "Mehndi Book (Offline & Online)",
       description:
@@ -79,10 +95,9 @@ class Project {
       keyAchievements: [
         "Engineered offline-first local image caching with preloading to enable zero-lag offline browsing",
         "Built responsive grid gallery with interactive pinch-to-zoom and full-screen preview modes",
-        "Optimized bitmap memory allocations to ensure continuous 60 FPS scrolling on all devices"
+        "Optimized bitmap memory allocations to ensure continuous 60 FPS scrolling on all devices",
       ],
       performanceMetric: "Offline-First Caching",
-      userMetric: "Live on Play Store",
       technologies: ["Flutter", "Dart", "Offline Cache", "Interactive Viewer", "Responsive UI"],
     ),
 
@@ -97,19 +112,17 @@ class Project {
       keyAchievements: [
         "Engineered smooth grid-calendar rendering with customized range selection logic",
         "Optimized gesture detection, reducing calendar state rebuild counts by 80%",
-        "Published open-source on pub.dev, maintaining modular code with clean API interfaces"
+        "Published open-source on pub.dev, maintaining modular code with clean API interfaces",
       ],
       performanceMetric: "80% Less Rebuilds",
-      userMetric: "150+ Pub Points",
       technologies: ["Flutter", "Dart", "Package", "Open Source"],
     ),
 
     // ✅ Mobile Projects
-
     Project(
       title: "Jomi Converter BD",
       description:
-      "A land measurement converter app for Bangladesh with simple and user-friendly UI.",
+          "A land measurement converter app for Bangladesh with simple and user-friendly UI.",
       image: "assets/images/jomi.webp",
       githubLink: "https://github.com/MontasirOpi/jomi_converter",
       playStoreLink: "https://play.google.com/store/apps/details?id=app.opi.land",
@@ -117,10 +130,9 @@ class Project {
       keyAchievements: [
         "Designed land area conversions (Katha, Bigha, Decimal) using local mathematical formulas",
         "Built responsive, clean grid layout that scales across standard and tablet screen sizes",
-        "Managed database cache for recent conversions using SQLite offline caching"
+        "Managed database cache for recent conversions using SQLite offline caching",
       ],
       performanceMetric: "Offline-First Support",
-      userMetric: "5k+ Downloads",
       technologies: ["Flutter", "Dart", "SQLite", "Responsive Grid"],
     ),
     Project(
@@ -133,10 +145,9 @@ class Project {
       keyAchievements: [
         "Linked Flutter front-end with Supabase databases for real-time inventory updates",
         "Configured secure authentication flows (JWT tokens) and user role dashboard access controls",
-        "Added local database caches using Hive to enable offline book reads"
+        "Added local database caches using Hive to enable offline book reads",
       ],
       performanceMetric: "Real-time Syncing",
-      userMetric: "B2B Admin Dashboard",
       technologies: ["Flutter", "Dart", "Supabase", "Hive Database"],
     ),
     Project(
@@ -149,10 +160,9 @@ class Project {
       keyAchievements: [
         "Structured state flows using BLoC (Business Logic Component) pattern separation",
         "Implemented dynamic shopping cart calculations and price aggregate animations",
-        "Optimized list widgets to prevent rebuilding off-screen product items"
+        "Optimized list widgets to prevent rebuilding off-screen product items",
       ],
       performanceMetric: "Pure BLoC Architecture",
-      userMetric: "60 FPS Animation",
       technologies: ["Flutter", "Dart", "BLoC Pattern", "State Management"],
     ),
     Project(
@@ -165,10 +175,9 @@ class Project {
       keyAchievements: [
         "Built high-fidelity hero page custom transitions for food item cards",
         "Integrated dynamic list filter chips for food categories",
-        "Optimized memory usage during heavy horizontal asset sliding"
+        "Optimized memory usage during heavy horizontal asset sliding",
       ],
       performanceMetric: "Custom Transitions",
-      userMetric: "Rich Visual Assets",
       technologies: ["Flutter", "Dart", "Animations", "UI Transitions"],
     ),
     Project(
@@ -181,10 +190,9 @@ class Project {
       keyAchievements: [
         "Connected OpenWeatherMap API JSON endpoints using secure HTTP configurations",
         "Designed responsive state updates, handling active loading, empty, and offline errors",
-        "Added weather-matching dynamic gradients and custom lottie weather indicators"
+        "Added weather-matching dynamic gradients and custom lottie weather indicators",
       ],
       performanceMetric: "API Optimization",
-      userMetric: "Clean Architecture",
       technologies: ["Flutter", "Dart", "REST API", "Weather Lottie"],
     ),
     Project(
@@ -197,13 +205,11 @@ class Project {
       keyAchievements: [
         "Implemented Flutter localization (English / Bangla strings) dynamically",
         "Integrated regional meteorological databases to support local predictions",
-        "Optimized UI layout grids to adapt smoothly to localized Bengali script typography"
+        "Optimized UI layout grids to adapt smoothly to localized Bengali script typography",
       ],
       performanceMetric: "Bilingual Localization",
-      userMetric: "Regional Launch",
       technologies: ["Flutter", "Dart", "Localization", "Bilingual"],
     ),
-
 
     // ✅ Web Projects
     Project(
@@ -217,10 +223,9 @@ class Project {
       keyAchievements: [
         "Integrated Firebase Firestore to support real-time user ratings and reviews",
         "Built responsive grid layouts with custom TailwindCSS styles",
-        "Configured secure authentication, ensuring authors can only edit their own reviews"
+        "Configured secure authentication, ensuring authors can only edit their own reviews",
       ],
       performanceMetric: "Fast Cloud Integration",
-      userMetric: "Active Web Community",
       technologies: ["React", "Firebase", "Firestore", "TailwindCSS"],
     ),
   ];
